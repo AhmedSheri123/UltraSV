@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+<link rel="stylesheet" href="{% static 'css/multiSelect/virtual-select.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/multiSelect/tooltip.min.css' %}">
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{{blog_types.keyword}}">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="website"> <!--content = website or profile or article-->
+
+<meta name="description" content="{{blog_types.desc}}">
+<meta property="og:title" content="{{blog_types.name}}"/> <!-- title shown in the actual shared post -->
+<meta property="og:description" content="{{blog_types.desc}}" /> <!-- description shown in the actual shared post -->
+<meta property="og:image" content="{{domain}}{% if blog_types.img %}{{blog_types.img.url}}{% endif %}" /> <!-- image link, make sure it's jpg -->
+<meta property="og:url" content="{{article_url}}" /> <!-- where do you want your post to link to -->
+
+<meta property="article:section" content="{{blog_types.name}}" />
+<meta property="article:tag" content="{{blog_types.name}}" />
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+<meta property="twitter:image" content="{{domain}}{% if blog_types.img %}{{blog_types.img.url}}{% endif %}" />
+{% endblock %}
+
+
+
+
+{% block title %}
+{{blog_types.name}}
+{% endblock %}
+
+{% block content %}
+
+
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+
+
+<div >
+
+  <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>{{blog_types.name}}</h1>
+                    
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+
+
+    <div class="item-box">
+
+      <div class="menu-box">
+
+        <ul>
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">filtering</p>
+  
+          <div class="nav-item">
+            <form action="" method="get">
+              <div class="input-group mb-3" style="flex-direction: row-reverse;">
+                
+                <input type="text" class="form-control" name="search" placeholder="Type to search"
+                  aria-label="Example text with button addon" aria-describedby="button-addon1">
+  
+  
+              </div>
+  
+  
+  
+  
+              <select id="filtring" multiple name="articletypes" placeholder="Choose a section to filter" data-search="false"
+                data-silent-initial-value-set="true">
+                {% for articles_type in articles_types %}
+                <option value="{{articles_type.id}}">{{articles_type.name}}</option>
+                {% endfor %}
+  
+              </select>
+  
+              <input class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="Search" id="button-addon1">
+            </form>
+          </div>
+        </ul>
+      </div>
+
+
+
+    <div class="container">
+      
+
+      </br>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for art in article%}
+      
+
+          <div class="col">
+            <div class="card h-100">
+              <a href="{% url 'ShowArticle' art.id %}"><img src="{% if art.article_img %}{{art.article_img.url}}{% endif %}" class="card-img-top" alt="{{art.img_desc}}"></a>
+              
+              <div class="card-body">
+                <h5 class="card-title">{{art.title}}</h5>
+                <p class="card-text">{{art.desc}}</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">{{art.publish_date|date:'Y/m/d'}}</small>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+        </div>
+      
+          </br>
+          
+          <nav  aria-label="Page navigation example">
+              <ul class="pagination justify-content-center" style="flex-wrap: wrap">
+                <li class="page-item">
+                  
+                </li>
+                {% if article.has_previous %}
+
+                <li class="page-item">
+                  <a class="page-link" href="?page=1">&laquo; First</a>
+                  </li>
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ article.previous_page_number }}">Previous</a>
+                </li>
+
+
+                {% endif %}
+
+                {% for num in prev_pages %}
+                <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {%endfor%}
+                  <li class="page-item"><a class="page-link active" aria-current="page" href="?page={{article.number}}">{{article.number}}</a></li>
+
+                {% for num in next_pages %}
+                <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {%endfor%}
+
+
+                {% if last_pages %}
+                <li class="page-item"><a class="page-link" >....</a></li>
+                {% for num in last_pages %}
+                <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {% endfor %}
+                {% endif %}
+
+                {% if article.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ article.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ article.paginator.num_pages }}">Last &raquo;</a>
+                </li>
+
+
+                {% endif %}
+
+                <li class="page-item">
+                  
+                </li>
+
+              </ul>
+            </nav>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+<div dir="rtl">
+
+  <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>{{blog_types.name}}</h1>
+                    
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+
+
+    <div class="item-box">
+
+      <div class="menu-box">
+
+        <ul>
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">تصفية</p>
+  
+          <div class="nav-item">
+            <form action="" method="get">
+              <div class="input-group mb-3" style="flex-direction: row-reverse;">
+                
+                <input type="text" class="form-control" name="search" placeholder="اكتب هنا للبحث"
+                  aria-label="Example text with button addon" aria-describedby="button-addon1">
+  
+  
+              </div>
+  
+  
+  
+  
+              <select id="filtring" multiple name="articletypes" placeholder="اختر القسم لتصفية" data-search="false"
+                data-silent-initial-value-set="true">
+                {% for articles_type in articles_types %}
+                <option value="{{articles_type.id}}">{{articles_type.name}}</option>
+                {% endfor %}
+  
+              </select>
+  
+              <input class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="بحث" id="button-addon1">
+            </form>
+          </div>
+        </ul>
+      </div>
+
+
+
+    <div class="container">
+      
+
+      </br>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for art in article%}
+      
+
+          <div class="col">
+            <div class="card h-100">
+              <a href="{% url 'ShowArticle' art.id %}"><img src="{% if art.article_img %}{{art.article_img.url}}{% endif %}" class="card-img-top" alt="{{art.img_desc}}"></a>
+              
+              <div class="card-body">
+                <h5 class="card-title">{{art.title}}</h5>
+                <p class="card-text">{{art.desc}}</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">{{art.publish_date|date:'Y/m/d'}}</small>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+        </div>
+      
+          </br>
+          
+          <nav  aria-label="Page navigation example">
+              <ul class="pagination justify-content-center" style="flex-wrap: wrap">
+                <li class="page-item">
+                  
+                </li>
+                {% if article.has_previous %}
+
+                <li class="page-item">
+                  <a class="page-link" href="?page=1">&laquo; الاول</a>
+                  </li>
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ article.previous_page_number }}">السابق</a>
+                </li>
+
+
+                {% endif %}
+
+                {% for num in prev_pages %}
+                <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {%endfor%}
+                  <li class="page-item"><a class="page-link active" aria-current="page" href="?page={{article.number}}">{{article.number}}</a></li>
+
+                {% for num in next_pages %}
+                <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {%endfor%}
+
+
+                {% if last_pages %}
+                <li class="page-item"><a class="page-link" >....</a></li>
+                {% for num in last_pages %}
+                <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {% endfor %}
+                {% endif %}
+
+                {% if article.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ article.next_page_number }}">التالي</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ article.paginator.num_pages }}">الاخير &raquo;</a>
+                </li>
+
+
+                {% endif %}
+
+                <li class="page-item">
+                  
+                </li>
+
+              </ul>
+            </nav>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+{% endif %}
+
+
+<script src="{% static 'js/multiSelect/virtual-select.min.js' %}"></script>
+<script src="{% static 'js/multiSelect/tooltip.min.js' %}"></script>
+<script>
+  VirtualSelect.init({ ele: '#filtring' });
+
+
+</script>
+
+
+{% endblock %}

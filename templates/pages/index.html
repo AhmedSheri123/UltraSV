@@ -1,0 +1,673 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}
+UltraSV
+{% endblock %}
+
+{% block content %}
+      
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+
+    <!-- Header -->
+    <header id="header" class="header" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-5">
+                    <div  class="text-container">
+                        <div class="section-title">Welcome to UltraSV Agency Web</div>
+                        <h1 class="h1-large">UltraSv offers many free services</h1>
+                        <p class="p-large">All the necessary tools for each person in one site</p>
+                        <a class="btn-solid-lg" href="#services">Services</a>
+                        <a class="quote" href="#contact"><i class="fas fa-paper-plane"></i>Connect with us</a>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{% static 'images/header-illustration.svg' %}" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header> <!-- end of header -->
+    <!-- end of header -->
+
+
+    <!-- Services -->
+    <div id="services" class="cards-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" >
+                    
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-icon blue">
+                            <span class="far fa-file-alt"></span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Blog</h5>
+                            <p>One blog, but it has many sections, and each section has its own specialty</p>
+                            <ul class="list-unstyled li-space-lg">
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Tools section</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Programming Department</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Systems Department</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Applications section</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Games section</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">And more</div>
+                                </li>
+                                <br>
+                                <a class="btn-solid-lg" href="{% url 'blog' %}">Blog</a>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-icon yellow">
+                            <i class="bi bi-boxes"><svg style="color:white; margin:30px 10px 0px 0px;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
+                                <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434L7.752.066ZM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567L4.25 7.504ZM7.5 9.933l-2.75 1.571v3.134l2.75-1.571V9.933Zm1 3.134 2.75 1.571v-3.134L8.5 9.933v3.134Zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567-2.742 1.567Zm2.242-2.433V3.504L8.5 5.076V8.21l2.75-1.572ZM7.5 8.21V5.076L4.75 3.504v3.134L7.5 8.21ZM5.258 2.643 8 4.21l2.742-1.567L8 1.076 5.258 2.643ZM15 9.933l-2.75 1.571v3.134L15 13.067V9.933ZM3.75 14.638v-3.134L1 9.933v3.134l2.75 1.571Z"></path>
+                              </svg></i>
+                            
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Free API coming soon</h5>
+                            <p></p>
+                            <ul class="list-unstyled li-space-lg">
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Send Email</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Get weather information</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Get IP information</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Change image formats to other formats</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Convert files to pdf</div>
+                                </li>
+
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Convert html to pdf for making reports</div>
+                                </li>
+
+
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Convert currencies to another currency</div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-icon red">
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Modern Technology Projects Store Is Free</h5>
+                            <p>Download your project for free or prepare a project according to your request</p>
+                            <ul class="list-unstyled li-space-lg">
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Projects ready for installation</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">free of error</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">free of gaps</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">Technical support to help</div>
+                                </li>
+                                <br>
+                                <a rel="nofollow" class="btn-solid-lg" href="https://wa.me/963980606953" target="_blank">Connect with us</a>
+                                
+                                <a style="margin-top:15px;" class="btn-solid-lg" href="{% url 'store' %}"> Go To Store</a>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of cards-1 -->
+    <!-- end of services -->
+
+
+    <!-- Details 1 -->
+    <div id="details" class="basic-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{% static 'images/details-1.svg' %}" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 col-xl-5">
+                    <div class="text-container">
+                        <h2><span>the ideal solution</span><br> for your small business</h2>
+                        <p>If you have any ideas about projects that you want to implement on the ground and do not know what is the correct way to implement them</p>
+                        <p>You can now contact us to implement your project and implement your ideas</p>
+                        <!-- <a class="btn-solid-reg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">تواصل معنا</a> -->
+                        <a class="btn-solid-lg" rel="nofollow" href="https://wa.me/963980606953" target="_blank">Connect with us</a>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of basic-1 -->
+    <!-- end of details 1 -->
+
+
+    <!-- Details Modal -->
+    <div id="staticBackdrop" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="row">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="col-lg-8">
+                        <div class="image-container">
+                            <img class="img-fluid" src="{% static 'images/details-modal.jpg' %}" alt="alternative">
+                        </div> <!-- end of image-container -->
+                    </div> <!-- end of col -->
+<!-- 
+                    <div class="col-lg-4">
+                        <h3>موقع رائع</h3>
+                        <hr>
+                        <p>In gravida at nunc sodales pretium. Vivamus semper, odio vitae mattis auctor, elit elit semper magna ac tum nico vela spider</p>
+                        <h4>User Feedback</h4>
+                        <p>Sapien vitae eros. Praesent ut erat a tellus posuere nisi more thico cursus pharetra finibus posuere nisi. Vivamus feugiat</p>
+                        <ul class="list-unstyled li-space-lg">
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Tincidunt sem vel brita bet mala</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Sapien condimentum sacoz sil necr</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Fusce interdum nec ravon fro urna</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Integer pulvinar biolot bat tortor</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Id ultricies fringilla fangor raq trinit</div>
+                            </li>
+                        </ul>
+                        <a id="modalCtaBtn" class="btn-solid-reg" href="#">Details</a>
+                        <button type="button" class="btn-outline-reg" data-bs-dismiss="modal">Close</button>
+                    </div>  -->
+                    
+                    <!-- end of col -->
+                </div> <!-- end of row -->
+            </div> <!-- end of modal-content -->
+        </div> <!-- end of modal-dialog -->
+    </div> <!-- end of modal -->
+    <!-- end of details modal -->
+
+
+    <!-- Details 2 -->
+    <div class="counter">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-5">
+                    <div class="text-container">
+                        <h2><span>wonderful site</span><br> The site was built with tons of love</h2>
+                        <p>We offer you a lot of free services to facilitate your work and daily life, and also if you have problems in your projects, we are at your service, do not hesitate to contact us</p>
+                        
+                        <!-- Counter -->
+                        <div class="counter-container">
+                            <div class="counter-cell">
+                                <div data-purecounter-start="0" data-purecounter-end="1250" data-purecounter-duration="2" class="purecounter">1</div>
+                                <div class="counter-info">happy customers</div>
+                            </div> <!-- end of counter-cell -->
+                            <div class="counter-cell red">
+                                <div data-purecounter-start="0" data-purecounter-end="1380" data-purecounter-duration="2" class="purecounter">1</div>
+                                <div class="counter-info">Problems solved</div>
+                            </div> <!-- end of counter-cell -->
+                            <a class="btn-solid-lg" rel="nofollow" href="https://wa.me/963980606953" target="_blank">Connect with us</a>
+                        </div> <!-- end of counter-container -->
+                        <!-- end of counter -->
+
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{% static 'images/details-2.svg' %}" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of counter -->
+    <!-- end of details 2 -->
+
+
+    <!-- Projects -->
+	<div id="projects" class="filter bg-gray" >
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="h2-heading">Latest Articles</h2>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    
+                    <!-- Filter -->
+                    <div class="button-group filters-button-group">
+                        <button class="button is-checked" data-filter="*">All</button>
+                        
+                        {% for blog_type in blog_types %}
+                        <button class="button" data-filter=".type{{blog_type.id}}">{{blog_type.name}}</button>
+                        {% endfor %}
+                    </div> <!-- end of button group -->
+                    <div class="grid">
+                    {% for articles in article_dict %}
+    
+                        {% for article in articles %}
+                
+                        <div class="element-item type{{article.blogTypes.id}}">
+                            <a href="{% url 'ShowArticle' article.id %}">
+                                <img class="img-fluid" src="{{article.article_img.url}}" alt="alternative">
+                                <p>{{article.title}}</p>
+                            </a>
+                        </div>
+
+                        {% endfor %}
+
+                    {% endfor %}
+                    </div> <!-- end of grid -->
+                    <!-- end of filter -->
+                    
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+		</div> <!-- end of container -->
+    </div> <!-- end of filter -->
+    <!-- end of projects -->
+
+
+
+
+
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+
+    <!-- Header -->
+    <header id="header" class="header" >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-5">
+                    <div dir="rtl" class="text-container">
+                        <div class="section-title">مرحبا بكم في وكالة UltraSV الويب</div>
+                        <h1 class="h1-large">UltraSv تقدم عديد من الخدمات المجانبة</h1>
+                        <p class="p-large">جميع الادوات الازمة لكل شخص في موقع واحد</p>
+                        <a class="btn-solid-lg" href="#services">الخدمات</a>
+                        <a class="quote" href="#contact"><i class="fas fa-paper-plane"></i>تواصل معنا</a>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{% static 'images/header-illustration.svg' %}" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header> <!-- end of header -->
+    <!-- end of header -->
+
+
+    <!-- Services -->
+    <div id="services" class="cards-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" dir="RTL">
+                    
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-icon blue">
+                            <span class="far fa-file-alt"></span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">مدونة</h5>
+                            <p>مدونة واحدة لكن لديها العديد من الاقسام ولكل قسم له تخصص خاص به</p>
+                            <ul class="list-unstyled li-space-lg">
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">قسم الادوات</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">قسم البرمجة</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">قسم الانظمة</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">قسم التطبيقات</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">قسم الالعاب</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">والمزيد</div>
+                                </li>
+                                <br>
+                                <a class="btn-solid-lg" href="{% url 'blog' %}">المدونة</a>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-icon yellow">
+                            <i class="bi bi-boxes"><svg style="color:white; margin:30px 10px 0px 0px;" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
+                                <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434L7.752.066ZM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567L4.25 7.504ZM7.5 9.933l-2.75 1.571v3.134l2.75-1.571V9.933Zm1 3.134 2.75 1.571v-3.134L8.5 9.933v3.134Zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567-2.742 1.567Zm2.242-2.433V3.504L8.5 5.076V8.21l2.75-1.572ZM7.5 8.21V5.076L4.75 3.504v3.134L7.5 8.21ZM5.258 2.643 8 4.21l2.742-1.567L8 1.076 5.258 2.643ZM15 9.933l-2.75 1.571v3.134L15 13.067V9.933ZM3.75 14.638v-3.134L1 9.933v3.134l2.75 1.571Z"></path>
+                              </svg></i>
+                            
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">API مجاني قريباََ</h5>
+                            <p></p>
+                            <ul class="list-unstyled li-space-lg">
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">ارسال ايميل</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">الحصول على معلومات الطقس</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">الحصول على معلومات IP</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">تغير صيغ الصور الى صيغ اخرى</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">تحويل الملفات الى pdf</div>
+                                </li>
+
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">تحويل html الى pdf لصنع التقارير</div>
+                                </li>
+
+
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">تحويل العملات الى عملة اخرى</div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-icon red">
+                            <i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">متجر المشاريع التكنولوجية الحديثة مجاني</h5>
+                            <p>نزل مشروعك مجانا او جهز مشروع حسب طلبك</p>
+                            <ul class="list-unstyled li-space-lg">
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">مشاريع جاهزة لتركيب</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">خالي من الاخطاء</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">خالي من الثغرات</div>
+                                </li>
+                                <li class="d-flex">
+                                    <i class="fas fa-check"></i>
+                                    <div class="flex-grow-1">دعم فني للمساعدة</div>
+                                </li>
+                                <br>
+                                <a class="btn-solid-lg" rel="nofollow" href="https://wa.me/963980606953" target="_blank">تواصل معنا</a>
+                                <a style="margin-top:15px;" class="btn-solid-lg" href="{% url 'store' %}">اذهب للمتجر</a>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of cards-1 -->
+    <!-- end of services -->
+
+
+    <!-- Details 1 -->
+    <div id="details" class="basic-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{% static 'images/details-1.svg' %}" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+                <div dir="rtl" class="col-lg-6 col-xl-5">
+                    <div class="text-container">
+                        <h2><span>الحل الأمثل</span><br> لأعمالك الصغيرة</h2>
+                        <p>اذا لديك اي افكار عن مشاريع تريد ان تطبقها على الارض الواقع ولا تعرف ما هي الطريقة الصحيحة لتطبيقها</p>
+                        <p>يمكنك الان تواصل معنا لتنفيذ مشروعك وتطبيق افكارك</p>
+                        <!-- <a class="btn-solid-reg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">تواصل معنا</a> -->
+                        <a class="btn-solid-lg" rel="nofollow" href="https://wa.me/963980606953" target="_blank">تواصل معنا</a>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of basic-1 -->
+    <!-- end of details 1 -->
+
+
+    <!-- Details Modal -->
+    <div id="staticBackdrop" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="row">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="col-lg-8">
+                        <div class="image-container">
+                            <img class="img-fluid" src="{% static 'images/details-modal.jpg' %}" alt="alternative">
+                        </div> <!-- end of image-container -->
+                    </div> <!-- end of col -->
+<!-- 
+                    <div class="col-lg-4">
+                        <h3>موقع رائع</h3>
+                        <hr>
+                        <p>In gravida at nunc sodales pretium. Vivamus semper, odio vitae mattis auctor, elit elit semper magna ac tum nico vela spider</p>
+                        <h4>User Feedback</h4>
+                        <p>Sapien vitae eros. Praesent ut erat a tellus posuere nisi more thico cursus pharetra finibus posuere nisi. Vivamus feugiat</p>
+                        <ul class="list-unstyled li-space-lg">
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Tincidunt sem vel brita bet mala</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Sapien condimentum sacoz sil necr</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Fusce interdum nec ravon fro urna</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Integer pulvinar biolot bat tortor</div>
+                            </li>
+                            <li class="d-flex">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="flex-grow-1">Id ultricies fringilla fangor raq trinit</div>
+                            </li>
+                        </ul>
+                        <a id="modalCtaBtn" class="btn-solid-reg" href="#">Details</a>
+                        <button type="button" class="btn-outline-reg" data-bs-dismiss="modal">Close</button>
+                    </div>  -->
+                    
+                    <!-- end of col -->
+                </div> <!-- end of row -->
+            </div> <!-- end of modal-content -->
+        </div> <!-- end of modal-dialog -->
+    </div> <!-- end of modal -->
+    <!-- end of details modal -->
+
+
+    <!-- Details 2 -->
+    <div class="counter">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-5">
+                    <div class="text-container">
+                        <h2><span>موقع رائع</span><br> بنيت الموقع بأطنان من الحب</h2>
+                        <p>نقدم لكم الكثير من الخدمات المجانية لتسهيل في اعمالكم وحياتكم اليومية ,وايضا اذا لديك مشاكل في مشاريعك فنحن في خدمتكم لا تتردد في التواصل معنا</p>
+                        
+                        <!-- Counter -->
+                        <div class="counter-container">
+                            <div class="counter-cell">
+                                <div data-purecounter-start="0" data-purecounter-end="1250" data-purecounter-duration="2" class="purecounter">1</div>
+                                <div class="counter-info">الزبائن السعداء</div>
+                            </div> <!-- end of counter-cell -->
+                            <div class="counter-cell red">
+                                <div data-purecounter-start="0" data-purecounter-end="1380" data-purecounter-duration="2" class="purecounter">1</div>
+                                <div class="counter-info">المشاكل التي تم حلها</div>
+                            </div> <!-- end of counter-cell -->
+                            <a class="btn-solid-lg" rel="nofollow" href="https://wa.me/963980606953" target="_blank">تواصل معنا</a>
+                        </div> <!-- end of counter-container -->
+                        <!-- end of counter -->
+
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{% static 'images/details-2.svg' %}" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of counter -->
+    <!-- end of details 2 -->
+
+
+    <!-- Projects -->
+	<div id="projects" class="filter bg-gray" dir="rtl">
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="h2-heading">احدث المقالات</h2>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    
+                    <!-- Filter -->
+                    <div class="button-group filters-button-group">
+                        <button class="button is-checked" data-filter="*">الكل</button>
+                        
+                        {% for blog_type in blog_types %}
+                        <button class="button" data-filter=".type{{blog_type.id}}">{{blog_type.name}}</button>
+                        {% endfor %}
+                    </div> <!-- end of button group -->
+                    <div class="grid">
+                    {% for articles in article_dict %}
+    
+                        {% for article in articles %}
+                
+                        <div class="element-item type{{article.blogTypes.id}}">
+                            <a href="{% url 'ShowArticle' article.id %}">
+                                <img class="img-fluid" src="{{article.article_img.url}}" alt="alternative">
+                                <p>{{article.title}}</p>
+                            </a>
+                        </div>
+
+                        {% endfor %}
+
+                    {% endfor %}
+                    </div> <!-- end of grid -->
+                    <!-- end of filter -->
+                    
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+		</div> <!-- end of container -->
+    </div> <!-- end of filter -->
+    <!-- end of projects -->
+
+
+
+
+
+
+
+
+
+{% endif %}
+
+
+
+{% endblock %}

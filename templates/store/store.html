@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{%for i in store_types%}{{i.name}}, {%endfor%}UltraSV Blog, UltraSV مدونة">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="website">
+<!--content = website or profile or article-->
+
+<meta name="description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك">
+<meta property="og:title" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك UltraSV Blog" />
+<!-- title shown in the actual shared post -->
+<meta property="og:description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك" />
+<!-- description shown in the actual shared post -->
+
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+{% endblock %}
+
+
+{% block title %}
+{{store_types.name}}
+{% endblock %}
+
+{% block content %}
+
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+
+<div>
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>All sections of the store</h1>
+                    <p>{% if user.is_superuser %} views = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container blog-box">
+
+        {% for blog_type in store_types %}
+        <div class="card blog-card">
+            <div class="text-img">
+                {{blog_type.name}}
+            </div>
+            <img src="
+              {% if blog_type.img %}
+              {{blog_type.img.url}}
+              {% endif %}
+              " class="card-img-top" alt="{{blog_type.img_desc}}">
+            <a class="clicker" href="{% url 'ShowServices' blog_type.id %}"></a>
+            <div class="card-body">
+                <p class="card-text">{{blog_type.desc}}</p>
+            </div>
+        </div>
+        {% endfor %}
+
+        <br>
+    </div>
+</div>
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+<div dir="rtl">
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>جميع اقسام المتجر</h1>
+                    <p>{% if user.is_superuser %} عدد المشاهدات = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container blog-box">
+
+        {% for blog_type in store_types %}
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    {{blog_type.name}}
+                </div>
+
+                <img src="
+                    {% if blog_type.img %}
+                    {{blog_type.img.url}}
+                    {% endif %}
+                    " class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'ShowServices' blog_type.id %}"></a>
+            <div class="card-body">
+                <p class="card-text">{{blog_type.desc}}</p>
+            </div>
+        </div>
+        {% endfor %}
+
+        <br>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endif %}
+
+{% endblock %}

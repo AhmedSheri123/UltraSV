@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'froala_editor/css/froala_style.min.css' %}">
+{% endblock %}
+
+
+{% block meta %}
+<meta name="keywords" content="{{article.keyword}}">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="article"> <!--content = website or profile or article-->
+
+<meta name="description" content="{{article.desc}}">
+<meta property="og:title" content="{{article.title}}"/> <!-- title shown in the actual shared post -->
+<meta property="og:description" content="{{article.desc}}" /> <!-- description shown in the actual shared post -->
+
+<meta property="og:image" content="{{domain}}{% if article.article_img %}{{article.article_img.url}}{% endif %}" /> <!-- image link, make sure it's jpg -->
+<meta property="og:url" content="{{article_url}}" /> <!-- where do you want your post to link to -->
+
+<meta property="article:section" content="{% for i in article.article_Type.all %}{{i}}, {% endfor %}" />
+<meta property="article:tag" content="{{article.blogTypes.name}}" />
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+<meta property="twitter:image" content="{{domain}}{% if article.article_img %}{{article.article_img.url}}{% endif %}" />
+{% endblock %}
+
+{% block title %}
+{{article.title}}
+{% endblock %}
+
+{% block content %}
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+<div >
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>{{article.title}}</h1>
+                    <span>Last Update In <time datetime="{{article.last_update}}">{{article.last_update|date:"Y/m/d"}}</time></span>
+                    <p>{% if user.is_superuser %} views = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container">
+      <br>
+      <div style="text-align: center;">
+
+      <img  src="{% if article.article_img %}{{article.article_img.url}}{% endif %}" class="img-fluid" alt="{{img_desc}}">
+      <br>
+    </div>
+    <br>
+    <div>  </div>
+    <div>
+    Article description: {{article.desc}}.
+      <br><br>
+      {{article.article|safe}}
+
+      {{languages }}
+      <br>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+<div dir="rtl">
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>{{article.title}}</h1>
+                    <span>اخر تحديث في <time datetime="{{article.last_update}}">{{article.last_update|date:"Y/m/d"}}</time></span>
+                    <p>{% if user.is_superuser %} المشاهدات = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container">
+        
+      <br>
+      <div style="text-align: center;">
+
+      <img  src="{% if article.article_img %}{{article.article_img.url}}{% endif %}" class="img-fluid" alt="{{img_desc}}">
+      <br>
+    </div>
+    <br>
+    <div>  </div>
+    <div class="fr-view">
+      وصف المقالة: {{article.desc}}.
+      <br><br>
+      {{article.article|safe}}
+
+      {{languages }}
+      <br>
+          </div>
+    </div>
+</div>
+
+{% endif %}
+
+<script src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+{% endblock %}
