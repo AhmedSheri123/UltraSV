@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'froala_editor/css/froala_style.min.css' %}">
+{% endblock %}
+
+
+{% block meta %}
+<meta name="keywords" content="{{article.keyword}}">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="article">
+<!--content = website or profile or article-->
+
+<meta name="description" content="{{article.desc}}">
+<meta property="og:title" content="{{article.title}}" /> <!-- title shown in the actual shared post -->
+<meta property="og:description" content="{{article.desc}}" /> <!-- description shown in the actual shared post -->
+
+<meta property="og:image" content="{{domain}}{% if article.article_img %}{{article.article_img.url}}{% endif %}" />
+<!-- image link, make sure it's jpg -->
+<meta property="og:url" content="{{article_url}}" /> <!-- where do you want your post to link to -->
+
+<meta property="article:section" content="{% for i in article.article_Type.all %}{{i}}, {% endfor %}" />
+<meta property="article:tag" content="{{article.blogTypes.name}}" />
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+<meta property="twitter:image" content="{{domain}}{% if article.article_img %}{{article.article_img.url}}{% endif %}" />
+{% endblock %}
+
+{% block title %}
+{{article.title}}
+{% endblock %}
+
+{% block content %}
+<style>
+    
+  .upload-box {
+    height: 50vh;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  
+  }
+  
+  .upload-card {
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+    width: 600px;
+    height: 300px;
+    background-color: #ffffff;
+    padding: 10px 30px 40px;
+  }
+  
+  .upload-card h3 {
+    font-size: 22px;
+    font-weight: 600;
+    
+  }
+  
+  .drop_box {
+    margin: 10px 0;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px dotted #a3a3a3;
+    border-radius: 5px;
+  }
+  
+  .drop_box h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #2e2e2e;
+  }
+  
+  .drop_box p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #a3a3a3;
+  }
+  
+  .btn-solid-sm {
+   border-radius: 3px;
+  }
+  
+  
+  .form input {
+    margin: 10px 0;
+    width: 100%;
+    background-color: #e2e2e2;
+    border: none;
+    outline: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+  }
+  </style>
+{% if LANGUAGE_CODE == "ar" %}
+
+<div dir="rtl">
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>{{obj.title}}</h1>
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container">
+        <br>
+
+        <div class="upload-box">
+            <div class="upload-card">
+              <h3>رفع الملفات</h3>
+              <div class="drop_box">
+                <header>
+                  <h4>اختر الملفات من هنا</h4>
+                </header>
+                <p>الملفات المدعومة: جميع صيغ الصور</p>
+                <form action="{% url 'imageConveringProcess' %}" method="post" enctype="multipart/form-data">
+                    <div id="upload-img-form"></div>
+                    <input name="img" multiple="multiple" type="file" hidden accept="image/*" id="imageUploadID" style="display:none;">
+                </form>
+                    <button id="submit-img" class="btn-solid-sm">اختر صورة</button>
+
+              </div>
+          
+            </div>
+          </div>
+
+
+        <div class="fr-view">
+
+        </div>
+    </div>
+</div>
+
+
+
+  
+
+  <script>
+    
+const dropArea = document.querySelector(".drop_box"),
+  button = dropArea.querySelector("#submit-img"),
+  dragText = dropArea.querySelector("header"),
+  form = dropArea.querySelector('#upload-img-form')
+  input = dropArea.querySelector("#imageUploadID");
+  
+let file;
+var filename;
+
+button.onclick = () => {
+  input.click();
+};
+
+input.addEventListener("change", function (e) {
+  var fileName = e.target.files[0].name;
+  let filedata = `
+    
+    <div class="form">
+    <h4>${fileName}</h4>
+    {% csrf_token %}    
+    <input name="convert_id" type="hidden" value="{{obj.id}}">
+    <button class="btn-solid-sm">رفع</button>
+    </div>
+`;
+form.innerHTML = filedata;
+button.style.display = 'none'
+dragText.style.display = 'none'
+});
+
+  </script>
+
+{% elif LANGUAGE_CODE == "en" %}
+
+<div dir="rtl">
+
+  <header class="ex-header">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-10 offset-xl-1">
+                  <h1>{{obj.title}}</h1>
+
+              </div> <!-- end of col -->
+          </div> <!-- end of row -->
+      </div> <!-- end of container -->
+  </header>
+
+  <div class="container">
+      <br>
+
+      <div class="upload-box">
+          <div class="upload-card">
+            <h3>Upload Files</h3>
+            <div class="drop_box">
+              <header>
+                <h4>Choose files from here</h4>
+              </header>
+              <p>Supported files: All image formats</p>
+              <form action="{% url 'imageConveringProcess' %}" method="post" enctype="multipart/form-data">
+                  <div id="upload-img-form"></div>
+                  <input name="img" multiple="multiple" type="file" hidden accept="image/*" id="imageUploadID" style="display:none;">
+              </form>
+                  <button id="submit-img" class="btn-solid-sm">Choose a picture</button>
+
+            </div>
+        
+          </div>
+        </div>
+
+
+      <div class="fr-view">
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+  
+const dropArea = document.querySelector(".drop_box"),
+button = dropArea.querySelector("#submit-img"),
+dragText = dropArea.querySelector("header"),
+form = dropArea.querySelector('#upload-img-form')
+input = dropArea.querySelector("#imageUploadID");
+
+let file;
+var filename;
+
+button.onclick = () => {
+input.click();
+};
+
+input.addEventListener("change", function (e) {
+var fileName = e.target.files[0].name;
+let filedata = `
+  
+  <div class="form">
+  <h4>${fileName}</h4>
+  {% csrf_token %}    
+  <input name="convert_id" type="hidden" value="{{obj.id}}">
+  <button class="btn-solid-sm">Upload</button>
+  </div>
+`;
+form.innerHTML = filedata;
+button.style.display = 'none'
+dragText.style.display = 'none'
+});
+
+</script>
+
+{% endif %}
+
+<script src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+{% endblock %}

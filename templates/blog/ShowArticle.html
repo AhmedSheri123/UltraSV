@@ -38,6 +38,11 @@
 {% endblock %}
 
 {% block content %}
+<style>
+p[data-f-id="pbf"] {
+    display: none;
+}
+</style>
 
 {% if LANGUAGE_CODE == "en" %}
 
@@ -65,7 +70,7 @@
     </div>
     <br>
     <div>  </div>
-    <div>
+    <div class="fr-view">
     Article description: {{article.desc}}.
       <br><br>
       {{article.article|safe}}

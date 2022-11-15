@@ -53,14 +53,17 @@
 
         {% for blog_type in store_types %}
         <div class="card blog-card">
-            <div class="text-img">
-                {{blog_type.name}}
+            <div class="img-name">
+                <div class="text-img">
+                    {{blog_type.name}}
+                </div>
+
+                <img src="
+                    {% if blog_type.img %}
+                    {{blog_type.img.url}}
+                    {% endif %}
+                    " class="card-img-top" alt="{{blog_type.img_desc}}">
             </div>
-            <img src="
-              {% if blog_type.img %}
-              {{blog_type.img.url}}
-              {% endif %}
-              " class="card-img-top" alt="{{blog_type.img_desc}}">
             <a class="clicker" href="{% url 'ShowServices' blog_type.id %}"></a>
             <div class="card-body">
                 <p class="card-text">{{blog_type.desc}}</p>

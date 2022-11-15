@@ -4,7 +4,22 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% block title %}
-UltraSV
+
+{% if LANGUAGE_CODE == "ar" %}
+تقدم لكم خدمات مهمة مجانية UltraSV
+{% elif LANGUAGE_CODE == "en" %}
+UltraSV provides you with free important services
+{% endif %}
+{% endblock %}
+
+
+{% block meta %}
+{% if LANGUAGE_CODE == "ar" %}
+<meta name="description" content="نقدم لكم العديد من الخدمات المجانبة المهمة والافضل التي يحتاجها كل شخص ويتعامل معه بشكل يومي لكي تسهل عليك الحياة اليومية شاهد خدماتنا الان وسهل حياتك">
+{% elif LANGUAGE_CODE == "en" %}
+<meta name="description" content="We offer you many important and best free services that every person needs and deals with on a daily basis. Watch our services now and make your life easier">
+{% endif %}
+
 {% endblock %}
 
 {% block content %}

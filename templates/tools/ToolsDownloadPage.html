@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'froala_editor/css/froala_style.min.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+{% endblock %}
+
+
+{% block meta %}
+<meta name="keywords" content="{{service.keyword}}">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="service">
+<!--content = website or profile or service-->
+
+<meta name="description" content="{{service.desc}}">
+<meta property="og:title" content="{{service.title}}" /> <!-- title shown in the actual shared post -->
+<meta property="og:description" content="{{service.desc}}" /> <!-- description shown in the actual shared post -->
+
+<meta property="og:image" content="{{domain}}{% if service.article_img %}{{service.article_img.url}}{% endif %}" />
+<!-- image link, make sure it's jpg -->
+<meta property="og:url" content="{{service_url}}" /> <!-- where do you want your post to link to -->
+
+<meta property="article:section" content="{% for i in service.service_Type.all %}{{i}}, {% endfor %}" />
+<meta property="article:tag" content="{{service.storeTypes.name}}" />
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+<meta property="twitter:image" content="{{domain}}{% if service.article_img %}{{service.article_img.url}}{% endif %}" />
+{% endblock %}
+
+{% block title %}
+{{service.title}}
+{% endblock %}
+
+{% block content %}
+<style>
+    .fr-view {
+        width: 94%;
+        display: block;
+        margin: auto;
+
+    }
+
+    .download-btn {
+        font-weight: bold;
+        font-size: 18px;
+        display: block;
+        box-shadow: #e6e6e6 1px 2px 6px 3px;
+        text-align: center;
+        padding: 20px;
+
+    }
+
+    .download-btn:hover {
+        text-decoration: none;
+    }
+
+    .service-img {
+        max-width: 700px;
+        border-radius: 5px;
+        box-shadow: #e6e6e6 1px 2px 6px 3px;
+
+    }
+
+    .details-card {
+        background-color: white;
+        border-radius: 5px;
+        border: #e6e6e6;
+        box-shadow: rgb(230, 230, 230) 1px 2px 3px;
+        margin-top: 15px;
+        padding: 15px;
+    }
+
+    .details-card .details {
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    .main-card {
+        padding: 15px 15px;
+
+        max-width: 400px;
+    }
+
+    svg {
+        width: 100%;
+        display: block;
+    }
+
+    #subsling {
+        background: #e4f1fe;
+        padding: 1em;
+    }
+
+    .img-title {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+
+    .main {
+        padding-top: 90px;
+        --bs-bg-opacity: 1;
+        background-color: rgba(242, 246, 252, var(--bs-bg-opacity)) !important;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important
+    }
+    .bg-light-color{
+        --bs-bg-opacity: 1;
+        background-color: rgba(242, 246, 252, var(--bs-bg-opacity)) !important;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important
+    }
+    h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+
+        line-height: 1.2;
+        color: #363d47;
+        font-size: large;
+    }
+
+    @media only screen and (max-width: 1200px) {
+        .service-img {
+            max-width: 600px;
+        }
+
+        .main-card {
+            max-width: 300px;
+        }
+    }
+
+
+    @media only screen and (max-width: 995px) {
+        .service-img {
+            width: 100%;
+            height: auto;
+        }
+
+        .main-card {
+            max-width: 100%;
+        }
+    }
+</style>
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+<div>
+
+    <div>
+        <br>
+        <div class="main">
+            <time datetime="{{service.last_update}}"></time>
+            <div class="img-title">
+
+
+                <div style="text-align: center; padding:15px 0px ;">
+
+                    <img src="{% if service.article_img %}{{service.article_img.url}}{% endif %}" class="service-img"
+                        alt="{{img_desc}}">
+                    <br>
+                </div>
+
+                <div class="main-card">
+                    <h1>{{service.title}}</h1>
+                    <p>{{service.desc}}</p>
+                    <div>
+                        {% if service.show_download_button %}
+                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>Free Download <i class="bi bi-download"></i></a>
+                        {% endif %}
+                        <br>
+                        {% if service.show_contuct_button %}
+                        <a href="https://wa.me/963980606953" rel="nofollow" class="btn-solid-lg download-btn">Connect us <i class="bi bi-send-check"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="details-card">
+                        <div class="details">
+                            <div>Downloaded <i class="bi bi-download"></i></div>
+                            <div>{{serviceDownloaded}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>Size</div>
+                            <div>{{service.file_size}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>Released</div>
+                            <div>{{service.issued|date:"Y/m/d"}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>Last Update</div>
+                            <div>{{service.LastUpdateEN}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>Product Version</div>
+                            <div>{{service.service_version}}</div>
+                        </div>
+                        {% if user.is_superuser %}
+                        <hr>
+                        <div class="details">
+                            <div>Views</div>
+                            <div>{{viewerCounter}}</div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="father">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"
+                    style="transform: rotate(360deg);" class="bg-light-color">
+                    <path fill-opacity="1"
+                        d="M0,224L60,208C120,192,240,160,360,138.7C480,117,600,107,720,138.7C840,171,960,245,1080,245.3C1200,245,1320,171,1380,133.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+                        fill="#fff"></path>
+                </svg>
+
+            </div>
+        </div>
+        <br>
+        <div> </div>
+        <div class="fr-view container">
+
+            {{service.article|safe}}
+
+            {{languages }}
+            <br>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+<div dir="rtl">
+
+    <div>
+        <br>
+        <div class="main">
+            <time datetime="{{service.last_update}}"></time>
+            <div class="img-title">
+
+                    <div class="details-card">
+                        <div class="details">
+                            <div style="margin-left: 15px;">الاسم</div>
+                            <div>{{file_name}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>الحجم</div>
+                            <div dir="ltr">{{file_size}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div><a class="btn-solid-lg" download="" href="{{file_url}}">تنزيل</a></div>
+                        </div>
+                        
+
+                    </div>
+            </div>
+            <div id="father">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"
+                    style="transform: rotate(360deg);" class="bg-light-color">
+                    <path fill-opacity="1"
+                        d="M0,224L60,208C120,192,240,160,360,138.7C480,117,600,107,720,138.7C840,171,960,245,1080,245.3C1200,245,1320,171,1380,133.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+                        fill="#fff"></path>
+                </svg>
+
+            </div>
+        </div>
+        <br>
+        <div> </div>
+        <div class="fr-view container">
+
+            {{service.article|safe}}
+
+            {{languages }}
+            <br>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<script src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+{% endblock %}

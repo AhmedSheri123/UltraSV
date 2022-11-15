@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'tools',
     'store',
     'modeltranslation',
     'django_cleanup.apps.CleanupConfig',
@@ -161,3 +162,4 @@ LOCALE_PATHS = [
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ar'
 MODELTRANSLATION_LANGUAGES = ('ar', 'en')
+

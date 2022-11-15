@@ -70,7 +70,7 @@ def ShowArticles(request, ArticleTypeId):
     articles_types = ArticleTypes.objects.filter(blog=blog_types)
     article_url = request.build_absolute_uri()
     domain = get_current_site(request).domain
-    article = Article.objects.filter(blogTypes=blog_types)
+    article = Article.objects.filter(blogTypes=blog_types, is_enabled=True)
     filtering = request.GET.get('articletypes')
     searching = request.GET.get('search')
 
@@ -100,10 +100,7 @@ def ShowArticle(request, ArticleId):
     domain = get_current_site(request).domain
     article_url = request.build_absolute_uri()
     
-    article = Article.objects.get(id=ArticleId)
+    article = Article.objects.get(id=ArticleId, is_enabled=True)
     viewerCounter = ArticleViews.objects.all().count()
     addVisitedItem(article, request)
     return render(request, 'blog/ShowArticle.html', {'article':article, "article_url":article_url, "domain":domain, "viewerCounter":viewerCounter})
-
-
-

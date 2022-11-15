@@ -1,4 +1,5 @@
 
+# make sure you are chmod project folder --> sudo chmod -R 777 /project
 <VirtualHost *:80>
 	ServerAdmin admin@djangoproject.localhost
 	ServerName localhost
@@ -12,7 +13,7 @@
 		Require all granted
 	</Directory>
 
-	Alias /static /var/www/UltraSV/media
+	Alias /media /var/www/UltraSV/media
 	<Directory /var/www/UltraSV/media>
 		Require all granted
 	</Directory>

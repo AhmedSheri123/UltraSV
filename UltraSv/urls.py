@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
+    path('tools/', include('tools.urls')),
     path('store/', include('store.urls')),
     path('froala_editor/',include('froala_editor.urls')),
     path('blog/', include('blog.urls')),

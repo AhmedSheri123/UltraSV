@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'froala_editor/css/froala_style.min.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+{% endblock %}
+
+
+{% block meta %}
+<meta name="keywords" content="{{service.keyword}}">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="service">
+<!--content = website or profile or service-->
+
+<meta name="description" content="{{service.desc}}">
+<meta property="og:title" content="{{service.title}}" /> <!-- title shown in the actual shared post -->
+<meta property="og:description" content="{{service.desc}}" /> <!-- description shown in the actual shared post -->
+
+<meta property="og:image" content="{{domain}}{% if service.article_img %}{{service.article_img.url}}{% endif %}" />
+<!-- image link, make sure it's jpg -->
+<meta property="og:url" content="{{service_url}}" /> <!-- where do you want your post to link to -->
+
+<meta property="article:section" content="{% for i in service.service_Type.all %}{{i}}, {% endfor %}" />
+<meta property="article:tag" content="{{service.storeTypes.name}}" />
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+<meta property="twitter:image" content="{{domain}}{% if service.article_img %}{{service.article_img.url}}{% endif %}" />
+{% endblock %}
+
+{% block title %}
+{{service.title}}
+{% endblock %}
+
+{% block content %}
+<style>
+    .image-formats-item{
+        padding: 8px;
+        display: flex;
+        border-radius: 5px;
+        justify-content: space-around;
+    }
+
+    .format-info{
+        font-weight: bold; font-size: 20px; padding-left: 20px;
+    }
+    .format-card-main{
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: rgb(224, 224, 224) 1px 2px 3px;
+        border-bottom: #363d47;
+        margin-bottom: 25px;
+        border-radius: 4px;
+
+        transition: .4s;
+        
+    }
+    .btn-solid-sm:hover{
+        box-shadow: rgb(250, 132, 132) 0px 0px 5px 1px;
+        padding: 18px 30px;
+        font-size: 17px;
+
+    }
+    .format-title{
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        margin: auto;
+        border-bottom: #e4e4e4 1px solid;
+        width: 200px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+
+    .fr-view {
+        width: 94%;
+        display: block;
+        margin: auto;
+
+    }
+
+
+    .main-card {
+        padding: 15px 15px;
+
+        max-width: 400px;
+    }
+
+    svg {
+        width: 100%;
+        display: block;
+    }
+
+
+    .img-title {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-content: center;
+    }
+
+    .main {
+        padding-top: 90px;
+        --bs-bg-opacity: 1;
+        background-color: rgba(242, 246, 252, var(--bs-bg-opacity)) !important;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important
+    }
+    .bg-light-color{
+        --bs-bg-opacity: 1;
+        background-color: rgba(242, 246, 252, var(--bs-bg-opacity)) !important;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important
+    }
+    h1 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+
+        line-height: 1.2;
+        color: #363d47;
+        font-size: large;
+    }
+
+    @media only screen and (max-width: 1200px) {
+        .service-img {
+            max-width: 600px;
+        }
+
+        .main-card {
+            max-width: 300px;
+        }
+    }
+
+
+    @media only screen and (max-width: 995px) {
+
+        .main-card {
+            max-width: 100%;
+        }
+    }
+</style>
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+<div dir="rtl">
+
+    <div>
+        <br>
+        <div class="main">
+            <time datetime="{{service.last_update}}"></time>
+            <div class="img-title">
+
+                <div class="main-card">
+                    <h1>{{service.title}}</h1>
+                    <p>{{service.desc}}</p>
+        
+                </div>
+                {% for format in IMAGE_FORMAT_LIST %}
+
+                <div class="format-card-main">
+                    <p class="format-title">convert from {{format}}</p>
+                    {% for tool in obj %}
+                    
+                    {% if tool.from_format == format %}
+                    <div>
+                       
+                        <div class="image-formats-item">
+                            
+                            <div class="format-info">
+                                convert from {{tool.from_format}} to {{tool.to_format}}
+                            </div>
+                            <div>
+                                <a class="btn-solid-sm" href="{% url 'ConvertImageFormatToAnother' tool.id %}">Choose</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div id="father">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"
+                    style="transform: rotate(360deg);" class="bg-light-color">
+                    <path fill-opacity="1"
+                        d="M0,224L60,208C120,192,240,160,360,138.7C480,117,600,107,720,138.7C840,171,960,245,1080,245.3C1200,245,1320,171,1380,133.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+                        fill="#fff"></path>
+                </svg>
+
+            </div>
+        </div>
+        <br>
+        <div> </div>
+        <div class="fr-view container">
+
+            {{service.article|safe}}
+
+            {{languages }}
+            <br>
+        </div>
+    </div>
+</div>
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+<div dir="rtl">
+
+    <div>
+        <br>
+        <div class="main">
+            <time datetime="{{service.last_update}}"></time>
+            <div class="img-title">
+
+                <div class="main-card">
+                    <h1>{{service.title}}</h1>
+                    <p>{{service.desc}}</p>
+        
+                </div>
+                {% for format in IMAGE_FORMAT_LIST %}
+
+                <div class="format-card-main">
+                    <p class="format-title">تحويل من {{format}}</p>
+                    {% for tool in obj %}
+                    
+                    {% if tool.from_format == format %}
+                    <div>
+                       
+                        <div class="image-formats-item">
+                            
+                            <div class="format-info">
+                                تحويل من {{tool.from_format}} الى {{tool.to_format}}
+                            </div>
+                            <div>
+                                <a class="btn-solid-sm" href="{% url 'ConvertImageFormatToAnother' tool.id %}">اختر</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div id="father">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"
+                    style="transform: rotate(360deg);" class="bg-light-color">
+                    <path fill-opacity="1"
+                        d="M0,224L60,208C120,192,240,160,360,138.7C480,117,600,107,720,138.7C840,171,960,245,1080,245.3C1200,245,1320,171,1380,133.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+                        fill="#fff"></path>
+                </svg>
+
+            </div>
+        </div>
+        <br>
+        <div> </div>
+        <div class="fr-view container">
+
+            {{service.article|safe}}
+
+            {{languages }}
+            <br>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<script src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+{% endblock %}

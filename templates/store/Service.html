@@ -149,6 +149,10 @@
             max-width: 100%;
         }
     }
+
+    p[data-f-id="pbf"] {
+        display: none;
+    }
 </style>
 {% if LANGUAGE_CODE == "en" %}
 
@@ -175,7 +179,7 @@
                     <p>{{service.desc}}</p>
                     <div>
                         {% if service.show_download_button %}
-                        <a href="{% url 'getDownloadsLink' service.id %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>Free Download <i class="bi bi-download"></i></a>
+                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>Free Download <i class="bi bi-download"></i></a>
                         {% endif %}
                         <br>
                         {% if service.show_contuct_button %}
@@ -186,6 +190,11 @@
                         <div class="details">
                             <div>Downloaded <i class="bi bi-download"></i></div>
                             <div>{{serviceDownloaded}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>Size</div>
+                            <div>{{service.file_size}}</div>
                         </div>
                         <hr>
                         <div class="details">
@@ -202,7 +211,7 @@
                             <div>Product Version</div>
                             <div>{{service.service_version}}</div>
                         </div>
-                        {% if user.is_superuser %} 
+                        {% if user.is_superuser %}
                         <hr>
                         <div class="details">
                             <div>Views</div>
@@ -262,9 +271,9 @@
                     <h1>{{service.title}}</h1>
                     <p>{{service.desc}}</p>
                     <div>
-                        
+
                         {% if service.show_download_button %}
-                        <a href="{% url 'getDownloadsLink' service.id %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>تحميل مجاني <i class="bi bi-download"></i></a>
+                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>تحميل مجاني <i class="bi bi-download"></i></a>
                         {% endif %}
                         <br>
                         {% if service.show_contuct_button %}
@@ -275,6 +284,11 @@
                         <div class="details">
                             <div>تم التنزيل <i class="bi bi-download"></i></div>
                             <div>{{serviceDownloaded}}</div>
+                        </div>
+                        <hr>
+                        <div class="details">
+                            <div>الحجم</div>
+                            <div dir="ltr">{{service.file_size}}</div>
                         </div>
                         <hr>
                         <div class="details">
@@ -291,7 +305,7 @@
                             <div>إصدار المنتج</div>
                             <div>{{service.service_version}}</div>
                         </div>
-                        {% if user.is_superuser %} 
+                        {% if user.is_superuser %}
                             <hr>
                             <div class="details">
                                 <div>المشاهدات</div>

@@ -90,6 +90,9 @@
                         <li><a href="{% url 'blog' %}">المدونة</a></li>
                         <li><a href="{% url 'TermsConditions' %}"> البنود و الظروف</a></li>
                         <li><a href="{% url 'PrivacyPolicy' %}"> سياسة الخصوصية</a></li>
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'taskDeleteConvertedImages' %}"> مسح الصور المحفوظة المنتهية</a></li>
+                        {% endif %}
                     </ul>
                 </div> <!-- end of col -->
                 <div class="col-lg-3">

@@ -26,10 +26,6 @@ class ArticleTypes(models.Model):
     def __str__(self):
         return self.name
 
-
-
-    def __str__(self):
-        return self.name
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name="عنوان المقالة")
     desc = models.TextField(verbose_name="وصف", null=True)
@@ -39,7 +35,8 @@ class Article(models.Model):
     blogTypes = models.ForeignKey(blogTypes, on_delete=models.CASCADE, verbose_name="نوع المدونة", null=True)
     article_Type = models.ManyToManyField(ArticleTypes, verbose_name="نوع المقالة")
     keyword = models.TextField(verbose_name="كلمات مفتاحية", null=True)
-    
+    is_enabled = models.BooleanField(default=True, verbose_name="هل الخدمة مفعلة ليظهر على الموقع")
+
     publish_date = models.DateTimeField(auto_now_add=True, null=True)
     last_update = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
