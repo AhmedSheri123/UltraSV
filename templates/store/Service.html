@@ -169,7 +169,7 @@
 
                 <div style="text-align: center; padding:15px 0px ;">
 
-                    <img src="{% if service.article_img %}{{service.article_img.url}}{% endif %}" class="service-img"
+                    <img width='600px' src="{% if service.article_img %}{{service.article_img.url}}{% endif %}" class="service-img"
                         alt="{{img_desc}}">
                     <br>
                 </div>
@@ -179,7 +179,7 @@
                     <p>{{service.desc}}</p>
                     <div>
                         {% if service.show_download_button %}
-                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>Free Download <i class="bi bi-download"></i></a>
+                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target=""{% endif %}>Free Download <i class="bi bi-download"></i></a>
                         {% endif %}
                         <br>
                         {% if service.show_contuct_button %}
@@ -262,7 +262,7 @@
 
                 <div style="text-align: center; padding:15px 0px ;">
 
-                    <img src="{% if service.article_img %}{{service.article_img.url}}{% endif %}" class="service-img"
+                    <img width='600px' src="{% if service.article_img %}{{service.article_img.url}}{% endif %}" class="service-img"
                         alt="{{img_desc}}">
                     <br>
                 </div>
@@ -273,7 +273,7 @@
                     <div>
 
                         {% if service.show_download_button %}
-                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target="_blank"{% endif %}>تحميل مجاني <i class="bi bi-download"></i></a>
+                        <a href="{% if service.is_download_btn_get_without_getDownloadsLink %}{{service.download_btn_get_without_getDownloadsLink}}{% else %}{% url 'getDownloadsLink' service.id %}{% endif %}" class="btn-solid-lg download-btn" {% if service.is_from_url %}target=""{% endif %}>تحميل مجاني <i class="bi bi-download"></i></a>
                         {% endif %}
                         <br>
                         {% if service.show_contuct_button %}
@@ -288,7 +288,7 @@
                         <hr>
                         <div class="details">
                             <div>الحجم</div>
-                            <div dir="ltr">{{service.file_size}}</div>
+                            <div dir="ltr">{{service.file_size}} {{file_size_format}}</div>
                         </div>
                         <hr>
                         <div class="details">
@@ -339,6 +339,58 @@
 </div>
 
 {% endif %}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+
+
+<script>
+    
+    {% block directionCTF %}
+        directionCTF = '2'
+        directionIDCTF = '{{service.id}}'
+        directionTlxCTF = '{{csrf_token}}'
+        directionTlxCTFx = 30
+    {% endblock  %}
+    
+    
+    
+    {% comment %}
+    موقع التشويش على السكريبت
+    https://obfuscator.io/
+    جميع كلمات الموجودة داخل الـ
+    if (directionIDCTF){...}
+    بداخل ملف js/swiper.min.js
+    هي الي يترسل طلب المشاهدة
+    وجميعها مشوشة عن طريق الموقع المذكور في الاعلى
+    
+    الكلمات المشوشة عبارة عن كلمات الموجودة في الاسفل
+    setTimeout(doSomething, directionTlxCTFx*1000); // اذا اردت تجديدها وتشويشها مرا اخرى استخدم الكود من هنا الى الاسفل
+    
+    function doSomething() {
+        
+    
+            var http = new XMLHttpRequest();
+            var url = '/ar/api/getImages';
+    
+            var params = 'id='+directionIDCTF+'&dir='+directionCTF+'&csrf='+directionTlxCTF+'&z-index-ctx='+CryptoJS.MD5(directionTlxCTF+'askdaskkldakl');
+    
+            http.open('POST', url, true);
+            //Send the proper header information along with the request
+    
+            http.setRequestHeader("X-CSRFToken", directionTlxCTF);
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            //http.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+    
+            http.onreadystatechange = function() {//Call a function when the state changes.
+                if(http.readyState == 4 && http.status == 200) {
+                    alert(http.responseText);
+                }
+            }
+            http.send(params);
+        }
+    
+     {% endcomment %}
+    
+    
+    </script>
 {% endblock %}

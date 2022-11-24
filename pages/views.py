@@ -9,7 +9,6 @@ def index(request):
     for blog_type in blog_types:
         article = Article.objects.filter(blogTypes=blog_type)[:3]
         article_dict.append(article)
-    print(article_dict)
     return render(request, 'pages/index.html', {"article_dict":article_dict, "blog_types":blog_types})
 
 

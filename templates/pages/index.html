@@ -328,7 +328,7 @@ UltraSV provides you with free important services
                 
                         <div class="element-item type{{article.blogTypes.id}}">
                             <a href="{% url 'ShowArticle' article.id %}">
-                                <img class="img-fluid" src="{{article.article_img.url}}" alt="alternative">
+                                <img class="img-fluid" src="{% if article.article_img%}{{article.article_img.url}}{% endif %}" alt="alternative">
                                 <p>{{article.title}}</p>
                             </a>
                         </div>
@@ -656,7 +656,7 @@ UltraSV provides you with free important services
                 
                         <div class="element-item type{{article.blogTypes.id}}">
                             <a href="{% url 'ShowArticle' article.id %}">
-                                <img class="img-fluid" src="{{article.article_img.url}}" alt="alternative">
+                                <img class="img-fluid" src="{% if article.article_img%}{{article.article_img.url}}{% endif %}" alt="alternative">
                                 <p>{{article.title}}</p>
                             </a>
                         </div>

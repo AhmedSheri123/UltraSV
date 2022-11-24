@@ -1,0 +1,174 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{%for i in store_types%}{{i.name}}, {%endfor%}UltraSV Blog, UltraSV مدونة">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="website">
+<!--content = website or profile or article-->
+
+<meta name="description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك">
+<meta property="og:title" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك UltraSV Blog" />
+<!-- title shown in the actual shared post -->
+<meta property="og:description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك" />
+<!-- description shown in the actual shared post -->
+
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+{% endblock %}
+
+
+{% block title %}
+{{store_types.name}}
+{% endblock %}
+
+{% block content %}
+
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+
+<div>
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>All sections of the store</h1>
+                    <p>{% if user.is_superuser %} views = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container blog-box">
+
+
+        <div class="card blog-card">
+
+
+
+
+            <div class="img-name">
+                <div class="text-img">
+                </div>
+
+                <img src="{% static 'images/web-page.png' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'myServices' blog_type.id %}"></a>
+            <div class="card-body">
+                <p class="card-text">{{blog_type.desc}}</p>
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+        <br>
+    </div>
+</div>
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+<div dir="rtl">
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>جميع الطلبات للخدمات المنشأة </h1>
+                    <p>{% if user.is_superuser %} عدد المشاهدات = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container blog-box">
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">المستخدم</th>
+                <th scope="col">الخدمة</th>
+                <th scope="col">تم الارسال</th>
+                <th scope="col">معاينة</th>
+                <th scope="col">عرض</th>
+                <th scope="col">موافقة</th>
+                <th scope="col">الغاء الطلب</th>
+
+              </tr>
+            </thead>
+            <tbody>
+                {% for ser in wait_for_accept %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ser.service.user.username}}</td>
+                <td>{{ser.service.title}}</td>
+                <td>{{ser.service.LastUpdateAR}}</td>
+                <td><a href="{% url 'ShowService' ser.service.id %}" target="_blank" class="btn btn-primary">معاينة</a></td>
+                <td><a href="{% url 'EditServiceForMe' ser.service.id %}" target="_blank" class="btn btn-primary">عرض</a></td>
+                <td><a href="{% url 'requestsUnderReviewServicesAccept' ser.id %}" class="btn btn-primary">موافقة</a></td>
+                <td>
+                
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ser.id}}">
+                    الغاء
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop{{ser.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">الغاء طلب انشاء الخدمة</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{% url 'requestsUnderReviewSrvicesCancel' ser.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <textarea name="msg" id="msg" rows="8" style="width: 100%;"></textarea>
+                            </div>
+                            <input type="submit" style="width: 100%;" class="btn btn-danger" value="الغاء الطلب">
+                        </form>
+                    </div>
+                    </div>
+                </div>
+
+                </td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    <br>
+    <br>
+</div>
+
+
+
+
+
+
+
+{% endif %}
+
+{% endblock %}

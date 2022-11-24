@@ -1,0 +1,412 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block links %}
+
+<link href="{% static 'froala_editor/css/froala_editor.pkgd.min.css' %}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{% static 'froala_editor/js/froala_editor.pkgd.min.js'%}"></script>
+{% endblock %}
+
+{% block content %}
+<style>
+    .item-box {
+        padding: 15px 10px;
+    }
+
+
+
+    @media only screen and (max-width: 678px) {
+        .pad-top {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .pad-top {
+        padding-top: 60px;
+    }
+
+    .lang-btn-box {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .lang-btn {
+        border: none;
+        padding: 10px 20px;
+        background: white;
+        box-shadow: #e2e2e2 0px 1px 4px;
+        transition: all .15s ease-in-out;
+    }
+
+    .lang-btn:hover {
+        background-color: #f1f1f1;
+        margin-top: 3px;
+    }
+</style>
+{% if LANGUAGE_CODE == "ar" %}
+
+<style>
+    #main-box-en {
+        display: none;
+    }
+</style>
+<div dir="rtl">
+
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>اضافة مقالة جديدة</h1>
+                    <p>يجب ملئ جميع البيانات للموافقة عليها</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+    
+    <div>
+        <p style="text-align: center;">يمكنك الان ان تضاعف ارباحك من خلال انشاء المقالة بلغتين اللغة العربية واللغة الانجليزية</p>
+        <div class="lang-btn-box">
+
+            <button onclick="ChangeToAR()" class="lang-btn">العربية</button>
+            <button onclick="ChangeToEN()" class="lang-btn">الانكليزية</button>
+
+        </div>
+    </div>
+
+    <form id="service_form" action="" method="post" enctype="multipart/form-data" class="item-box">
+
+        {% for message in messages %}
+            
+        {% if message.tags == 'error' %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+                {{message}}
+            </div>
+            
+          </div>
+          {% elif message.tags == 'success' %}
+          <div class="alert alert-success d-flex align-items-center" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div>
+              {{message}}
+            </div>
+
+          </div>
+          {% endif %}
+          {% endfor %}
+
+
+        {% csrf_token %}
+
+        <div id="main-box-ar">
+            <p>اللغة الحالية باللغة العربية</p>
+            <div class="row g-3 pad-top">
+                <div class="col">
+                    <label class="form-label" for="title_ar">عنوان المقالة</label>
+                    <input type="text" name="title_ar" class="form-control" id="title_ar" placeholder="عنوان المقالة"
+                        aria-label="First name">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="desc_ar">وصف قصير</label>
+                    <input type="text" class="form-control" name="desc_ar" id="desc_ar" placeholder="وصف قصير"
+                        aria-label="Last name">
+                </div>
+            </div>
+
+            <br>
+
+            {{ form.content_ar }}
+
+            <br>
+            <div class="col">
+                <label class="form-label" for="keyword_ar">كلمات مفتاحية</label>
+                <textarea class="form-control" name="keyword_ar" id="keyword_ar" rows="3"></textarea>
+            </div>
+        </div>
+
+
+
+
+        <div id="main-box-en">
+            <p>اللغة الحالية باللغة الانجليزية</p>
+            <div class="row g-3 pad-top">
+                <div class="col">
+                    <label class="form-label" for="title_en">عنوان المقالة</label>
+                    <input type="text" name="title_en" class="form-control" id="title_en" placeholder="عنوان المقالة"
+                        aria-label="First name">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="desc_en">وصف قصير</label>
+                    <input type="text" class="form-control" name="desc_en" id="desc_en" placeholder="وصف قصير"
+                        aria-label="Last name">
+                </div>
+            </div>
+
+            <br>
+
+            {{ form.content_en }}
+
+            <br>
+            <div class="col">
+                <label class="form-label" for="keyword_en">كلمات مفتاحية</label>
+                <textarea class="form-control" name="keyword_en" id="keyword_en" rows="3"></textarea>
+            </div>
+        </div>
+
+
+
+        <br>
+        <div class="col">
+            <div class="mb-3">
+                <label for="service_type" class="form-label">نوع المقالة</label>
+                <select name="service_type" id="service_type" class="form-select" multiple aria-label="multiple select example">
+                    {%for i in service_type%}
+                    <option value="{{i.id}}">{{i.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-3 pad-top">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="image" class="form-label">اختر صورة</label>
+                    <input class="form-control" name="image" type="file" id="image">
+                </div>
+            </div>
+
+        </div>
+
+            <input id="save_as_draft" type="hidden" name="SaveAsDraft" value="0">
+
+        <div style="width: min(100%,400px); margin: auto;">
+            <input class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="نشر" >
+            <a onclick="SaveAsDraft()" class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;">حفظ كمسودة</a>
+        </div>
+    </form>
+
+
+
+
+    <script>
+        var editor_ar = new FroalaEditor('#id_content_ar', { 'fileUpload': false, 'videoUpload': 'false', "inlineMode": false, "imageUploadURL": "/ar/froala_editor/image_upload/", "imageUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' }, "fileUploadURL": "/ar/froala_editor/file_upload/", "fileUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' } });
+        var editor_en = new FroalaEditor('#id_content_en', { 'fileUpload': false, 'videoUpload': 'false', "inlineMode": false, "imageUploadURL": "/ar/froala_editor/image_upload/", "imageUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' }, "fileUploadURL": "/ar/froala_editor/file_upload/", "fileUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' } });
+
+    </script>
+</div>
+
+</div>
+
+<script>
+
+    function SaveAsDraft(){
+        service_form = document.getElementById('service_form')
+        SaveAsDraftInput = document.getElementById('save_as_draft')
+        SaveAsDraftInput.value = '1'
+        service_form.submit()
+
+    }
+     
+    var mainAR = document.getElementById('main-box-ar')
+    var mainEN = document.getElementById('main-box-en')
+
+    function ChangeToEN() {
+        mainAR.style.display = 'none'
+        mainEN.style.display = 'block'
+
+    }
+    function ChangeToAR() {
+        mainAR.style.display = 'block'
+        mainEN.style.display = 'none'
+    }
+</script>
+{% elif LANGUAGE_CODE == "en" %}
+
+<style>
+    #main-box-ar {
+        display: none;
+    }
+</style>
+<div >
+
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>Add a new article</h1>
+                    <p>All data must be filled in for approval</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+    
+    <div>
+        <p style="text-align: center;">You can now double your profits by creating an article in two languages, Arabic and English</p>
+        <div class="lang-btn-box">
+            <button onclick="ChangeToEN()" class="lang-btn">English</button>
+            <button onclick="ChangeToAR()" class="lang-btn">Arabic</button>
+
+
+        </div>
+    </div>
+
+    <form id="service_form" action="" method="post" enctype="multipart/form-data" class="item-box">
+
+        {% for message in messages %}
+            
+        {% if message.tags == 'error' %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+                {{message}}
+            </div>
+            
+          </div>
+          {% elif message.tags == 'success' %}
+          <div class="alert alert-success d-flex align-items-center" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div>
+              {{message}}
+            </div>
+
+          </div>
+          {% endif %}
+          {% endfor %}
+
+
+        {% csrf_token %}
+
+        <div id="main-box-ar">
+            <p>The current language is Arabic</p>
+            <div class="row g-3 pad-top">
+                <div class="col">
+                    <label class="form-label" for="title_ar">Article title</label>
+                    <input type="text" name="title_ar" class="form-control" id="title_ar" placeholder="Article title"
+                        aria-label="First name">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="desc_ar">short description</label>
+                    <input type="text" class="form-control" name="desc_ar" id="desc_ar" placeholder="short description"
+                        aria-label="Last name">
+                </div>
+            </div>
+
+            <br>
+
+            {{ form.content_ar }}
+
+            <br>
+            <div class="col">
+                <label class="form-label" for="keyword_ar">keywords</label>
+                <textarea class="form-control" name="keyword_ar" id="keyword_ar" rows="3"></textarea>
+            </div>
+        </div>
+
+
+
+
+        <div id="main-box-en">
+            <p>The current language is English</p>
+            <div class="row g-3 pad-top">
+                <div class="col">
+                    <label class="form-label" for="title_en">Article title</label>
+                    <input type="text" name="title_en" class="form-control" id="title_en" placeholder="Article title"
+                        aria-label="First name">
+                </div>
+                <div class="col">
+                    <label class="form-label" for="desc_en">short description</label>
+                    <input type="text" class="form-control" name="desc_en" id="desc_en" placeholder="short description"
+                        aria-label="Last name">
+                </div>
+            </div>
+
+            <br>
+
+            {{ form.content_en }}
+
+            <br>
+            <div class="col">
+                <label class="form-label" for="keyword_en">keywords</label>
+                <textarea class="form-control" name="keyword_en" id="keyword_en" rows="3"></textarea>
+            </div>
+        </div>
+
+
+
+        <br>
+        <div class="col">
+            <div class="mb-3">
+                <label for="service_type" class="form-label">Article type</label>
+                <select name="service_type" id="service_type" class="form-select" multiple aria-label="multiple select example">
+                    {%for i in service_type%}
+                    <option value="{{i.id}}">{{i.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-3 pad-top">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Choose a picture</label>
+                    <input class="form-control" name="image" type="file" id="image">
+                </div>
+            </div>
+
+        </div>
+
+            <input id="save_as_draft" type="hidden" name="SaveAsDraft" value="0">
+
+        <div style="width: min(100%,400px); margin: auto;">
+            <input class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="publishing" >
+            <a onclick="SaveAsDraft()" class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;">Save as a draft</a>
+        </div>
+    </form>
+
+
+
+
+    <script>
+        var editor_ar = new FroalaEditor('#id_content_ar', { 'fileUpload': false, 'videoUpload': 'false', "inlineMode": false, "imageUploadURL": "/ar/froala_editor/image_upload/", "imageUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' }, "fileUploadURL": "/ar/froala_editor/file_upload/", "fileUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' } });
+        var editor_en = new FroalaEditor('#id_content_en', { 'fileUpload': false, 'videoUpload': 'false', "inlineMode": false, "imageUploadURL": "/ar/froala_editor/image_upload/", "imageUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' }, "fileUploadURL": "/ar/froala_editor/file_upload/", "fileUploadParams": { "csrfmiddlewaretoken": '{{ csrf_token }}' } });
+
+    </script>
+</div>
+
+</div>
+
+<script>
+
+    function SaveAsDraft(){
+        service_form = document.getElementById('service_form')
+        SaveAsDraftInput = document.getElementById('save_as_draft')
+        SaveAsDraftInput.value = '1'
+        service_form.submit()
+
+    }
+     
+    var mainAR = document.getElementById('main-box-ar')
+    var mainEN = document.getElementById('main-box-en')
+
+    function ChangeToEN() {
+        mainAR.style.display = 'none'
+        mainEN.style.display = 'block'
+
+    }
+    function ChangeToAR() {
+        mainAR.style.display = 'block'
+        mainEN.style.display = 'none'
+    }
+</script>
+{% endif %}
+
+{% endblock content %}

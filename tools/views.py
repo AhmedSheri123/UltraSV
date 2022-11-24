@@ -72,7 +72,12 @@ def ToolsDownloadPage(request, path, file_url):
 
     file_size = os.path.getsize(path)
     file_size = convert_bytes(file_size)
-    file_name = path.split('\\')[-1]
+    file_name = path
+    try:
+        file_name = file_name.replace('/', '\\')
+    except:
+        pass
+    file_name = file_name.split('\\')[-1]
     print(path)
 
     return render(request, 'tools/ToolsDownloadPage.html', {'file_size':file_size, 'file_name':file_name, 'file_url':file_url})
@@ -80,8 +85,8 @@ def ToolsDownloadPage(request, path, file_url):
 def HtmlToPdf(request):
     return render(request, 'tools/HtmlTo/HtmlToPdf.html')
 
-def taskDeleteConvertedImages(requests):
-    REFERER = requests.META['HTTP_REFERER']
+def taskDeleteConvertedImages(request):
+    REFERER = request.META['HTTP_REFERER']
     taskes = convertedImageDeleteTask.objects.all()
     for task in taskes:
 

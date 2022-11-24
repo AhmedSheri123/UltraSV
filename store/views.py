@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from .models import Services, ServiceTypes, StoreTypes, ServiceViews, ServicesDownloads
+from .models import Services, ServiceTypes, StoreTypes, ServiceViews, ServicesDownloads, download_size_type_list
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db.models import Q 
+from dashboard.countrys import get_location
+from dashboard.models import VisitPriceByCountry
 # Create your views here.
 
 def addServiceDownloadCounter(request, service):
@@ -16,7 +18,16 @@ def addServiceDownloadCounter(request, service):
         obj.save()
         return True
     return False
-    
+
+def getMonyByCountry(country_code):
+        visit_price_by_country = VisitPriceByCountry.objects.filter(country=country_code)
+        
+        if visit_price_by_country.exists():
+            return visit_price_by_country.filter(country=country_code)[0].price_per_one_visit
+        else:
+            return VisitPriceByCountry.objects.get(country='others').price_per_one_visit
+
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -27,11 +38,15 @@ def get_client_ip(request):
     return ip
 
 def addVisitedItem(service, request):
-    ip_address = get_client_ip(request)
-    obj = ServiceViews.objects.filter(ip_address=ip_address, service=service, visited_date__date=timezone.now().date())
+    ip_address = '122.169.13.83'# get_client_ip(request)
+
+    obj = ServiceViews.objects.filter(ip_address=ip_address, visited_date__date=timezone.now().date())
     
     if not obj.exists():
-        obj = obj.create(ip_address=ip_address, service=service)
+        data = get_location(ip_address)
+        country_code=data.get('country_code')
+        
+        obj = obj.create(ip_address=ip_address, service=service, country_code=country_code, country_name=data.get('country_name'), city=data.get('city'), region=data.get('region'), earn_count=getMonyByCountry(country_code))
         obj.save()
         return True
     return False
@@ -109,12 +124,25 @@ def ShowServices(request, ServiesTypeId):
 def ShowService(request, ServiceId):
     domain = get_current_site(request).domain
     service_url = request.build_absolute_uri()
-    
-    service = Services.objects.get(id=ServiceId, is_enabled=True)
+    service = None
+    if Services.objects.filter(id=ServiceId, user=request.user, is_visible_to_the_user=True).exists() or request.user.is_superuser:
+        service = Services.objects.get(id=ServiceId)
+    else:
+        service = Services.objects.get(id=ServiceId, is_enabled=True)
+
     serviceDownloaded = ServicesDownloads.objects.filter(service=service).count()
-    addVisitedItem(service, request)
+
+
+    file_size_format = None
+    for i in download_size_type_list:
+        if i[0] == service.file_size_format:
+            file_size_format = i[1]
+            break
+
+
+    #addVisitedItem(service, request)
     viewerCounter = ServiceViews.objects.filter(service=service).count()
-    return render(request, 'store/Service.html', {'service':service, "service_url":service_url, "domain":domain, "serviceDownloaded":serviceDownloaded, "viewerCounter":viewerCounter})
+    return render(request, 'store/Service.html', {'service':service, "service_url":service_url, "domain":domain, "serviceDownloaded":serviceDownloaded, "viewerCounter":viewerCounter, 'file_size_format':file_size_format})
 
 
 
@@ -126,4 +154,5 @@ def getDownloadsLink(request, ServiceId):
     elif service.is_from_local:
         url = service.service_file.url
     addServiceDownloadCounter(request, service)
-    return HttpResponseRedirect(url)
+    #return HttpResponseRedirect(url)
+    return render(request, 'getDownloadsLink.html', {'url':url, 'ServiceId':ServiceId})

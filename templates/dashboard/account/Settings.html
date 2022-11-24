@@ -1,0 +1,203 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{%for i in blog_types%}{{i.name}}, {%endfor%}UltraSV Blog, UltraSV مدونة">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="website">
+<!--content = website or profile or article-->
+
+<meta name="description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك">
+<meta property="og:title" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك UltraSV Blog" />
+<!-- title shown in the actual shared post -->
+<meta property="og:description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك" />
+<!-- description shown in the actual shared post -->
+
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+{% endblock %}
+
+
+{% block title %}
+UltraSV مدونة
+{% endblock %}
+
+{% block content %}
+
+<style>
+.box-body, .box-primary{
+    width: 100%;
+}
+
+.box-body input, .box-body select {
+    border: rgb(223, 222, 222) solid 1px;
+    box-shadow: rgb(241, 241, 241) 1px 2px 3px;
+    border-radius: 4px;
+}
+</style>
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+
+
+<div>
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>All sections of the blog</h1>
+                    <p>{% if user.is_superuser %} Views = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container blog-box">
+
+
+
+        <br>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+<div dir="rtl">
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1></h1>
+                    <p>من المستحسن ملىء جميع البيانات</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+    <div class="container blog-box">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <form method="post" accept-charset="utf-8" style="width: 100%;" action="">
+                    {% csrf_token %}
+                    <legend>معلومات الشخصية</legend>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="first-name">الاسم الاول</label>
+                                {{user_form.first_name}}
+                                </div>
+                                    
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="last-name">الاسم الاخير</label>
+                                {{user_form.last_name}}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="address1">العنوان 1</label>
+                                {{userprofile_form.address}}
+
+                                </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="address2">العنوان 2</label>
+                                {{userprofile_form.address2}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="city">المدينة</label>
+                                {{userprofile_form.city}}
+                            
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="state">ولاية</label>
+                                {{userprofile_form.state}}
+                            
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="zip">الرمز البريدي</label>
+                                {{userprofile_form.zip_code}}
+                            
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group select "><label for="country">البلد</label>
+                                {{userprofile_form.countrys}}
+                            
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="phone-number">رقم الهاتف</label>
+                                {{userprofile_form.phone_number}}
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6">
+                            <div class="form-group text "><label for="phone-number">الجنس</label>
+                                <select name="sex" style="padding-right: 30px;" class="form-control" required="" id="id_sex">
+                                  
+                                    <option {% if sex == 'male' %}selected{% endif %} value="male">ذكر</option>
+                                  
+                                    <option {% if sex == 'female' %}selected{% endif %} value="female">انثى</option>
+                                  
+                                  </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button class="btn btn-primary" type="submit" style="font-weight: bold;">حفظ</button>
+
+                </form>
+                <button class="btn btn-primary mt-3" type="submit" style="font-weight: bold;">تغير كلمة المرور</button>
+            </div>
+        </div>
+
+        <br>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endif %}
+
+{% endblock %}

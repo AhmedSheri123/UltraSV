@@ -1,4 +1,4 @@
-from .models import StoreTypes, ServiceTypes, Services
+from .models import StoreTypes, ServiceTypes, Services, EditedServicesWaitForAccept
 from modeltranslation.translator import TranslationOptions,register
 
 
@@ -6,6 +6,9 @@ from modeltranslation.translator import TranslationOptions,register
 class ProductTranslationOptions(TranslationOptions):
     fields = ('title', 'desc', 'img_desc', 'article', 'keyword')
 
+@register(EditedServicesWaitForAccept)
+class EditedServicesWaitForAcceptOptions(TranslationOptions):
+    fields = ('title', 'desc', 'img_desc', 'article', 'keyword')
 
 @register(ServiceTypes)
 class ArticleTypesTranslationOptions(TranslationOptions):

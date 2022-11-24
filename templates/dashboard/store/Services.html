@@ -1,0 +1,528 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load dashboard_store %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+<link rel="stylesheet" href="{% static 'css/multiSelect/virtual-select.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/multiSelect/tooltip.min.css' %}">
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{{store_types.keyword}}">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="website">
+<!--content = website or profile or article-->
+
+<meta name="description" content="{{store_types.desc}}">
+<meta property="og:title" content="{{store_types.name}}" /> <!-- title shown in the actual shared post -->
+<meta property="og:description" content="{{store_types.desc}}" /> <!-- description shown in the actual shared post -->
+<meta property="og:image" content="{{domain}}{% if store_types.img %}{{store_types.img.url}}{% endif %}" />
+<!-- image link, make sure it's jpg -->
+<meta property="og:url" content="{{service_url}}" /> <!-- where do you want your post to link to -->
+
+<meta property="article:section" content="{{store_types.name}}" />
+<meta property="article:tag" content="{{store_types.name}}" />
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+<meta property="twitter:image" content="{{domain}}{% if store_types.img %}{{store_types.img.url}}{% endif %}" />
+
+
+
+
+{% endblock %}
+
+
+
+
+{% block title %}
+{{store_types.name}}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .item-box{padding: 15px 0px;}
+</style>
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+
+
+
+<div >
+
+  <header class="ex-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-10 offset-xl-1">
+          <h1>{{store_types.name}}</h1>
+          <p>All your services will appear for{{store_types.name}} here</p>
+        </div> <!-- end of col -->
+      </div> <!-- end of row -->
+    </div> <!-- end of container -->
+
+  </header>
+
+
+  <div>
+
+    {% for message in messages %}
+            
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            {{message}}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% elif message.tags == 'success' %}
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div>
+          {{message}}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+      {% endfor %}
+  </div>
+  <div class="item-box">
+
+    <div class="menu-box">
+
+      <ul>
+        <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">my services</p>
+        <a class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" href='{% url 'AddNewServiceForMe' store_types.id %}'  id="button-addon1">Add a new service</a>
+        <hr>
+          <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">filtering</p>
+
+        <div class="nav-item">
+          <form action="" method="get">
+            <div class="input-group mb-3" style="flex-direction: row-reverse;">
+              
+              <input type="text" class="form-control" name="search" placeholder="Type here to search"
+                aria-label="Example text with button addon" aria-describedby="button-addon1">
+
+
+            </div>
+
+
+
+
+            <select id="filtring" multiple name="ServiesTypes" placeholder="Choose the section to filter" data-search="false"
+              data-silent-initial-value-set="true">
+              {% for articles_type in services_types %}
+              <option value="{{articles_type.id}}">{{articles_type.name}}</option>
+              {% endfor %}
+
+            </select>
+
+            <input class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="Search" id="button-addon1">
+          </form>
+        </div>
+      </ul>
+    </div>
+
+
+
+    <div class="container">
+
+
+      </br>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for art in service%}
+        
+
+        <div class="col">
+          <div class="card h-100">
+            <a href="{% url 'ShowService' art.id %}"><img
+                src="{% if art.article_img %}{{art.article_img.url}}{% endif %}" class="card-img-top"
+                alt="{{art.img_desc}}"></a>
+
+            <div class="card-body">
+              <h5 class="card-title">{{art.title}}</h5>
+              <p class="card-text">{{art.desc}}</p>
+            </div>
+            <div class="card-footer">
+              
+              <a class="btn btn-outline-danger" href="{% url 'ShowService' art.id %}" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" id="button-addon1">Show</a>
+              <a href="{% url 'EditServiceForMe' art.id %}" class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" id="button-addon1">Modify</a>
+              <input class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{art.id}}" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="delete" id="button-addon1">
+              
+            
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal{{art.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Delete the service</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure to delete?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                      <a href="{% url 'DeleteMyService' art.id %}"  class="btn btn-danger">delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-muted" style="text-align: center; display:block; margin-top: 10px;"><strong >
+                <span>state:</span>
+                  {% check_if_edited_servies_is_under_review art.id as edited_service_is_under_review %}
+                  {% check_if_servies_is_under_review art.id as is_under_review %}
+                  {% check_if_edited_servies_is_modification_cancelled art.id as modification_cancelled %}
+
+                  {% if modification_cancelled and art.is_enabled %}
+                  Published | The amendment has been revoked
+                  {% elif edited_service_is_under_review and art.is_enabled %}
+                  Published | Awaiting approval of the amendment
+                  {% elif edited_service_is_under_review and not art.is_enabled %}
+                  Awaiting approval
+                  {% elif art.save_as_draft %}
+                  Draft
+                  {% elif is_under_review %}
+                  Awaiting approval
+                  {% elif art.is_enabled %}
+                  published
+                  {% else %}
+                  Unpublished
+                  {% endif %}
+
+                </strong>
+              </p>
+
+              {% get_Service_watching_count art.id as watching_count %}
+              <small class="text-muted" style="text-align: center; display:block;">Views {{watching_count}}</small>
+              <small class="text-muted" style="text-align: center; display:block;">Last update {{art.LastUpdateEN}}</small>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+
+      </br>
+      {% if not service %}
+      <h2 style="text-align:center;">You have no services</h2>
+      {% else %}
+      
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" style="flex-wrap: wrap">
+          <li class="page-item">
+
+          </li>
+          {% if service.has_previous %}
+
+          <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; the first</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ service.previous_page_number }}">Previous</a>
+          </li>
+
+
+          {% endif %}
+
+          {% for num in prev_pages %}
+          <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+          {%endfor%}
+          <li class="page-item"><a class="page-link active" aria-current="page"
+              href="?page={{service.number}}">{{service.number}}</a></li>
+
+          {% for num in next_pages %}
+          <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+          {%endfor%}
+
+
+          {% if last_pages %}
+          <li class="page-item"><a class="page-link">....</a></li>
+          {% for num in last_pages %}
+          <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+          {% endfor %}
+          {% endif %}
+
+          {% if service.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ service.next_page_number }}">next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ service.paginator.num_pages }}">the last &raquo;</a>
+          </li>
+
+
+          {% endif %}
+
+          <li class="page-item">
+
+          </li>
+
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+<div dir="rtl">
+
+  <header class="ex-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-10 offset-xl-1">
+          <h1>{{store_types.name}}</h1>
+          <p>سوف تظهر جميع خدماتك ل{{store_types.name}} هنا</p>
+        </div> <!-- end of col -->
+      </div> <!-- end of row -->
+    </div> <!-- end of container -->
+
+  </header>
+
+
+  <div>
+
+    {% for message in messages %}
+            
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            {{message}}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% elif message.tags == 'success' %}
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div>
+          {{message}}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+      {% endfor %}
+  </div>
+  <div class="item-box">
+
+    <div class="menu-box">
+
+      <ul>
+        <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">خدماتي</p>
+        <a class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" href='{% url 'AddNewServiceForMe' store_types.id %}'  id="button-addon1">اضافة خدمة جديدة</a>
+        <hr>
+          <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">تصفية</p>
+
+        <div class="nav-item">
+          <form action="" method="get">
+            <div class="input-group mb-3" style="flex-direction: row-reverse;">
+              
+              <input type="text" class="form-control" name="search" placeholder="اكتب هنا للبحث"
+                aria-label="Example text with button addon" aria-describedby="button-addon1">
+
+
+            </div>
+
+
+
+
+            <select id="filtring" multiple name="ServiesTypes" placeholder="اختر القسم لتصفية" data-search="false"
+              data-silent-initial-value-set="true">
+              {% for articles_type in services_types %}
+              <option value="{{articles_type.id}}">{{articles_type.name}}</option>
+              {% endfor %}
+
+            </select>
+
+            <input class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="بحث" id="button-addon1">
+          </form>
+        </div>
+      </ul>
+    </div>
+
+
+
+    <div class="container">
+
+
+      </br>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for art in service%}
+        
+
+        <div class="col">
+          <div class="card h-100">
+            <a href="{% url 'ShowService' art.id %}"><img
+                src="{% if art.article_img %}{{art.article_img.url}}{% endif %}" class="card-img-top"
+                alt="{{art.img_desc}}"></a>
+
+            <div class="card-body">
+              <h5 class="card-title">{{art.title}}</h5>
+              <p class="card-text">{{art.desc}}</p>
+            </div>
+            <div class="card-footer">
+              
+              <a class="btn btn-outline-danger" href="{% url 'ShowService' art.id %}" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" id="button-addon1">عرض</a>
+              <a href="{% url 'EditServiceForMe' art.id %}" class="btn btn-outline-danger" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" id="button-addon1">تعديل</a>
+              <input class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{art.id}}" style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;" type="submit" value="حذف" id="button-addon1">
+              
+            
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal{{art.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">حذف الخدمة</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      هل انت متأكد من الحذف؟
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">اغلاق</button>
+                      <a href="{% url 'DeleteMyService' art.id %}"  class="btn btn-danger">حذف</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-muted" style="text-align: center; display:block; margin-top: 10px;"><strong >
+                <span>الحالة:</span>
+                  {% check_if_edited_servies_is_under_review art.id as edited_service_is_under_review %}
+                  {% check_if_servies_is_under_review art.id as is_under_review %}
+                  {% check_if_edited_servies_is_modification_cancelled art.id as modification_cancelled %}
+
+                  {% if modification_cancelled and art.is_enabled %}
+                  تم النشر | تم الغاء الموافقة على التعديل
+                  {% elif edited_service_is_under_review and art.is_enabled %}
+                  تم النشر | بانتظار الموافقة على التعديل
+                  {% elif edited_service_is_under_review and not art.is_enabled %}
+                    بانتظار الموافقة
+                  {% elif art.save_as_draft %}
+                  مسودة
+                  {% elif is_under_review %}
+                    بانتظار الموافقة
+                  {% elif art.is_enabled %}
+                    تم النشر
+                  {% else %}
+                  غير منشور
+                  {% endif %}
+
+                </strong>
+              </p>
+
+              {% get_Service_watching_count art.id as watching_count %}
+              <small class="text-muted" style="text-align: center; display:block;">عدد المشاهدات {{watching_count}}</small>
+              <small class="text-muted" style="text-align: center; display:block;">اخر تعديل {{art.LastUpdateAR}}</small>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+
+      </br>
+      {% if not service %}
+      <h2 style="text-align:center;">لا يوجد لديك خدمات</h2>
+      {% else %}
+      
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" style="flex-wrap: wrap">
+          <li class="page-item">
+
+          </li>
+          {% if service.has_previous %}
+
+          <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; الاول</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ service.previous_page_number }}">السابق</a>
+          </li>
+
+
+          {% endif %}
+
+          {% for num in prev_pages %}
+          <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+          {%endfor%}
+          <li class="page-item"><a class="page-link active" aria-current="page"
+              href="?page={{service.number}}">{{service.number}}</a></li>
+
+          {% for num in next_pages %}
+          <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+          {%endfor%}
+
+
+          {% if last_pages %}
+          <li class="page-item"><a class="page-link">....</a></li>
+          {% for num in last_pages %}
+          <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+          {% endfor %}
+          {% endif %}
+
+          {% if service.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ service.next_page_number }}">التالي</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ service.paginator.num_pages }}">الاخير &raquo;</a>
+          </li>
+
+
+          {% endif %}
+
+          <li class="page-item">
+
+          </li>
+
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+{% endif %}
+
+
+<script src="{% static 'js/multiSelect/virtual-select.min.js' %}"></script>
+<script src="{% static 'js/multiSelect/tooltip.min.js' %}"></script>
+<script>
+  VirtualSelect.init({ ele: '#filtring' });
+
+
+</script>
+{% endblock %}

@@ -20,9 +20,12 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
+    path('api/', include('dashboard_api.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('accounts/', include('accounts.urls')),
     path('tools/', include('tools.urls')),
     path('store/', include('store.urls')),
-    path('froala_editor/',include('froala_editor.urls')),
+    path(r'froala_editor/',include('froala_editor.urls')),
     path('blog/', include('blog.urls')),
     path('', include('pages.urls')),
     path('admin/', admin.site.urls),

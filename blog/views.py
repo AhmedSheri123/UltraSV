@@ -4,6 +4,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.db.models import Q
+from dashboard.countrys import get_location
+from store.views import getMonyByCountry
 # Create your views here.
 
 
@@ -16,11 +18,17 @@ def get_client_ip(request):
     return ip
 
 def addVisitedItem(article, request):
-    ip_address = get_client_ip(request)
-    obj = ArticleViews.objects.filter(ip_address=ip_address, article=article, visited_date__date=timezone.now().date())
+    ip_address = '122.169.13.83'# get_client_ip(request)
+    obj = ArticleViews.objects.filter(ip_address=ip_address, visited_date__date=timezone.now().date())
     if not obj.exists():
-        obj = obj.create(ip_address=ip_address, article=article)
+        data = get_location(ip_address)
+        country_code=data.get('country_code')
+
+        obj = obj.create(ip_address=ip_address, article=article, country_code=country_code, country_name=data.get('country_name'), city=data.get('city'), region=data.get('region'), earn_count=getMonyByCountry(country_code))
         obj.save()
+        userprofile = obj.article.user.userprofile
+        userprofile.money += obj.earn_count
+        userprofile.save()
         return True
     return False
 
@@ -99,8 +107,12 @@ def ShowArticles(request, ArticleTypeId):
 def ShowArticle(request, ArticleId):
     domain = get_current_site(request).domain
     article_url = request.build_absolute_uri()
-    
-    article = Article.objects.get(id=ArticleId, is_enabled=True)
+    article = None
+    if Article.objects.filter(id=ArticleId, user=request.user, is_visible_to_the_user=True).exists() or request.user.is_superuser:
+        article = Article.objects.get(id=ArticleId)
+    else:
+        article = Article.objects.get(id=ArticleId, is_enabled=True)
+        
     viewerCounter = ArticleViews.objects.all().count()
-    addVisitedItem(article, request)
+    #addVisitedItem(article, request)
     return render(request, 'blog/ShowArticle.html', {'article':article, "article_url":article_url, "domain":domain, "viewerCounter":viewerCounter})

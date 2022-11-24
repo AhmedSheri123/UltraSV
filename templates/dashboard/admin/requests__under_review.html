@@ -1,0 +1,267 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{%for i in store_types%}{{i.name}}, {%endfor%}UltraSV Blog, UltraSV مدونة">
+<!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+<meta property="og:type" content="website">
+<!--content = website or profile or article-->
+
+<meta name="description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك">
+<meta property="og:title" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك UltraSV Blog" />
+<!-- title shown in the actual shared post -->
+<meta property="og:description" content="متجر المشاريع الالكترونية اختر مشروعك او جهز مشروع حسب طلبك" />
+<!-- description shown in the actual shared post -->
+
+<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+{% endblock %}
+
+
+{% block title %}
+{{store_types.name}}
+{% endblock %}
+
+{% block content %}
+
+
+{% if LANGUAGE_CODE == "en" %}
+
+
+
+<div>
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>All sections of requests under review</h1>
+                    <p>{% if user.is_superuser %} Views = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+    <h2 class="container">the shop</h2>
+    <div class="container blog-box">
+        
+        
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    New service addition requests
+                </div>
+
+                <img src="{% static 'images/SharedScreenshot.jpg' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewServices' %}"></a>
+
+        </div>
+        
+
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    Requests for modified services
+                </div>
+
+                <img src="{% static 'images/web-editor.webp' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewEditedServices' %}"></a>
+
+        </div>
+
+
+        <br>
+
+    </div>
+
+    <br>
+    <br>
+    <h2 class="container">blog</h2>
+    <div class="container blog-box">
+
+        
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    Requests to publish new articles
+                </div>
+
+                <img src="{% static 'images/SharedScreenshot.jpg' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewAreticls' %}"></a>
+
+        </div>
+        
+
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    Requests for modified articles
+                </div>
+
+                <img src="{% static 'images/web-editor.webp' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewEditedAreticls' %}"></a>
+
+        </div>
+
+
+        <br>
+
+    </div>
+
+
+
+    <h2 class="container">pending withdrawal</h2>
+    <div class="container blog-box">
+
+        
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    Withdraw outstanding balances
+                </div>
+
+                <img src="{% static 'images/SharedScreenshot.jpg' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'dashboardWithdraw' %}"></a>
+
+        </div>
+        <br>
+
+    </div>
+    <br>
+    <br>
+</div>
+
+
+
+
+
+{% elif LANGUAGE_CODE == "ar" %}
+
+
+
+
+<div dir="rtl">
+
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>جميع اقسام الطلبات التي قيد المراجعة</h1>
+                    <p>{% if user.is_superuser %} عدد المشاهدات = {{viewerCounter}} {% endif %}</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+    <h2 class="container">المتجر</h2>
+    <div class="container blog-box">
+        
+        
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    الطلبات لنشر خدمات جديدة
+                </div>
+
+                <img src="{% static 'images/SharedScreenshot.jpg' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewServices' %}"></a>
+
+        </div>
+        
+
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    الطلبات للخدمات المعدلة
+                </div>
+
+                <img src="{% static 'images/web-editor.webp' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewEditedServices' %}"></a>
+
+        </div>
+
+
+        <br>
+
+    </div>
+
+    <br>
+    <br>
+    <h2 class="container">المدونة</h2>
+    <div class="container blog-box">
+
+        
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    الطلبات لنشر مقالات جديدة
+                </div>
+
+                <img src="{% static 'images/SharedScreenshot.jpg' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewAreticls' %}"></a>
+
+        </div>
+        
+
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    الطلبات للمقالات المعدلة
+                </div>
+
+                <img src="{% static 'images/web-editor.webp' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'requestsUnderReviewEditedAreticls' %}"></a>
+
+        </div>
+
+
+        <br>
+
+    </div>
+
+
+
+    <h2 class="container">طلبات السحب المعلقة</h2>
+    <div class="container blog-box">
+
+        
+        <div class="card blog-card">
+            <div class="img-name">
+                <div class="text-img">
+                    طلبات السحب المعلقة
+                </div>
+
+                <img src="{% static 'images/SharedScreenshot.jpg' %}" class="card-img-top" alt="{{blog_type.img_desc}}">
+            </div>
+            <a class="clicker" href="{% url 'dashboardWithdraw' %}"></a>
+
+        </div>
+        <br>
+
+    </div>
+    <br>
+    <br>
+</div>
+
+
+
+
+
+
+
+{% endif %}
+
+{% endblock %}

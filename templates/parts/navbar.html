@@ -26,8 +26,6 @@
 {% if LANGUAGE_CODE == "en" %}
 
 
-
-
     <!-- Navigation -->
     <nav  id="navbarExample" class="navbar navbar-expand-lg fixed-top navbar-light" aria-label="Main navigation">
         <div class="container">
@@ -75,8 +73,34 @@
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tools' %}">Tools</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'store' %}">Store</a>
                     </li>
+
+
+                    {% if not user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Register</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                            <li><div class="dropdown-divider"></div></li>
+
+                            <li><a class="dropdown-item" href="{% url 'signup' %}">Signup</a></li>
+
+
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboardMain' %}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% endif %}
+
                     <li class="nav-item">
 
                         <form action="{% url 'ChangeLanguage' %}" id="FormLang" method="post">{% csrf_token %}
@@ -95,10 +119,10 @@
 
                     </li>
                 </ul>
-                <span class="nav-item">
+                {% comment %} <span class="nav-item">
                     <a class="btn-solid-sm" href="{% url 'blog' %}">All sections of the blog</a>
                     
-                </span>
+                </span> {% endcomment %}
 
 
 
@@ -150,13 +174,13 @@
                         <a class="nav-link" href="#pricing">Pricing</a>
                     </li> -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">المدونة</a>
+                        <a class="nav-link dropdown-toggle" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">المدونة</a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown01">
                             <li><a class="dropdown-item" href="{% url 'blog' %}">الجميع</a></li>
-                            <li><div class="dropdown-divider"></div></li>
                             {% for art in ArticleTypes%}
-                            <li><a class="dropdown-item" href="{% url 'ShowArticles' art.id %}">{{art}}</a></li>
                             <li><div class="dropdown-divider"></div></li>
+                            <li><a class="dropdown-item" href="{% url 'ShowArticles' art.id %}">{{art}}</a></li>
+
                             {% endfor %}
 
                         </ul>
@@ -167,6 +191,30 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'store' %}">المتجر</a>
                     </li>
+
+
+
+                    {% if not user.is_authenticated %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">التسجيل</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                            <li><a class="dropdown-item" href="{% url 'login' %}">تسجيل الدخول</a></li>
+                            <li><div class="dropdown-divider"></div></li>
+
+                            <li><a class="dropdown-item" href="{% url 'signup' %}">انشاء حساب</a></li>
+
+
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboardMain' %}">لوحة التحكم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">تسجيل الخروج</a>
+                    </li>
+                    {% endif %}
 
                     <li class="nav-item">
 
@@ -185,13 +233,15 @@
                         </form>
     
                     </li>
+
+
                 </ul>
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
 
-                    <span class="nav-item">
+                    {% comment %} <span class="nav-item">
                         <a class="btn-solid-sm " href="{% url 'blog' %}">جميع اقسام المدونة</a>
                         
-                    </span>   
+                    </span>    {% endcomment %}
 
 
 

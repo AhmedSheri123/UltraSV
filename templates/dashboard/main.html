@@ -1,0 +1,808 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block links %}
+
+
+{% endblock %}
+
+{% block content %}
+
+{% if LANGUAGE_CODE == "ar" %}
+
+<style>
+    .item-box {
+        display: flex;
+    }
+
+    .menu-box {
+        min-width: 400px;
+    }
+
+    @media (max-width:902px) {
+        .menu-box {
+            min-width: 170px;
+        }
+
+        .two-box-charts {
+            width: 25vh;
+        }
+    }
+
+    @media (max-width:768px) {
+        .item-box {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .menu-box {
+            min-width: 100%;
+        }
+
+    }
+
+    @media (max-width:400px) {}
+
+    .details-card {
+        color: white;
+        padding-top: 20px;
+        display: block;
+        margin: auto;
+        width: -webkit-fill-available;
+        margin-top: 13px;
+        min-height: 100px;
+    }
+
+    .ico-with-value {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px 5px
+    }
+</style>
+
+
+<div class="container" dir="rtl">
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>التحليلات</h1>
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+</div>
+
+{% for message in messages %}
+
+{% if message.tags == 'error' %}
+<div class="alert alert-danger d-flex align-items-center" style="flex-direction: row-reverse;" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+        <use xlink:href="#exclamation-triangle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+
+</div>
+{% elif message.tags == 'success' %}
+<div class="alert alert-success d-flex align-items-center" style="flex-direction: row-reverse;" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+
+</div>
+{% endif %}
+{% endfor %}
+<div dir="rtl" class="item-box">
+
+
+    <div class="menu-box">
+
+
+        <ul>
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">الرصيد</p>
+            <button class="btn btn-warning details-card" id="button-addon1"><strong>الرصيد الحالي</strong>
+                <div class="ico-with-value"> <strong><i class="fa-solid fa-dollar-sign"></i>
+                        {{user.userprofile.money}}</strong>
+                    <i class="fa-solid fa-coins fa-2x"></i>
+                </div>
+
+            </button>
+            <a class="btn btn-outline-warning"
+                style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;"
+                href="{% url 'Withdrawn' %}" id="button-addon1"><strong>سحب الارباح</strong></a>
+            <hr>
+
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">المدونة</p>
+            <button class="btn btn-primary details-card" id="button-addon1"><strong>مجموع مشاهدات المدونة هذا
+                    الشهر</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i>
+                        {{articles_views_per_month}}</strong>
+                    <i class="fa-solid fa-square-rss fa-2x"></i>
+                </div>
+            </button>
+            <button class="btn btn-primary details-card" id="button-addon1"><strong>مجموع مشاهدات المدونة من البداية حتى
+                    الان</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i> {{articles_view_count}}</strong>
+                    <i class="fa-solid fa-square-rss fa-2x"></i>
+                </div>
+            </button>
+
+            <button class="btn btn-primary details-card" id="button-addon1"><strong>ارباح المدونة هذا الشهر</strong>
+                <div class="ico-with-value"><strong><i class="fa-solid fa-dollar-sign"></i>
+                        {{articles_money_by_month}}</strong>
+                    <i class="fa-solid fa-sack-dollar fa-2x"></i>
+                </div>
+            </button>
+
+            <a class="btn btn-outline-primary"
+                style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;"
+                href="{% url 'mySotre' %}" id="button-addon1">اضافة خدمة</a>
+
+            <hr>
+
+
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">المتجر</p>
+            <button class="btn btn-danger details-card" id="button-addon1"><strong>مجموع مشاهدات المتجر هذا
+                    الشهر</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i>
+                        {{services_views_per_month}}</strong>
+                    <i class="fa-solid fa-store fa-2x"></i>
+                </div>
+            </button>
+
+            <button class="btn btn-danger details-card" id="button-addon1"><strong>مجموع مشاهدات المتجر من البداية حتى
+                    الان</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i> {{services_view_count}}</strong>
+                    <i class="fa-solid fa-store fa-2x"></i>
+                </div>
+            </button>
+
+            <button class="btn btn-danger details-card" id="button-addon1"><strong>ارباح المتجر هذا الشهر</strong>
+                <div class="ico-with-value"><strong><i class="fa-solid fa-dollar-sign"></i>
+                        {{services_money_by_month}}</strong>
+                    <i class="fa-solid fa-sack-dollar fa-2x"></i>
+                </div>
+            </button>
+
+            <a class="btn btn-outline-danger"
+                style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;"
+                href="{% url 'myBlog' %}" id="button-addon1">اضافة مقالة</a>
+
+        </ul>
+
+
+    </div>
+
+    <div dir="rtl" class="container">
+        <div style="display: flex;">
+            <i class="fa-solid fa-chart-simple fa-2x"></i>
+            <h2 style="padding-right: 10px;">المخططات</h2>
+
+        </div>
+
+        <h3 style="font-size: 20px;">عدد المشاهدات اليومية خلال الشهر</h3>
+        <canvas height="400px" class="my-4 w-100 chartjs-render-monitor" id="myChart1"></canvas>
+        <br>
+        <h3 style="font-size: 20px;">ارباح الشهرية خلال السنة</h3>
+        <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart4"></canvas>
+        <h3 style="font-size: 20px;">مقارنة بين الارباح</h3>
+        <div class="item-box two-box-charts" style=" margin: auto; justify-content: center;">
+            <canvas width="300px" height="300px" style="max-width: 300px;" class="my-4 w-100 chartjs-render-monitor"
+                id="myChart2"></canvas>
+
+
+        </div>
+
+
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">الدولة</th>
+                    <th scope="col">السعر لكل الف ظهور</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in visit_price_by_country %}
+                <tr>
+
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{i.getCountryNmae}}</td>
+                    <td>{{i.price_per_one_visit}}$</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://raw.githubusercontent.com/chartjs/Chart.js/master/docs/scripts/utils.js"></script>
+<script>
+    const ctx = document.getElementById('myChart1');
+    const ctx2 = document.getElementById('myChart2');
+    const ctx4 = document.getElementById('myChart4');
+
+    const data = {
+        labels: [{% for i in date_list %}'{{i|date:'Y - m - d'}}', {% endfor %}],
+    datasets: [{
+        label: 'المدونة',
+        data: [{% for i in articles_views_per_day %}'{{i}}', {% endfor %}],
+        fill: false,
+            borderColor: '#6168ff',
+        },
+    {
+        label: 'المتجر',
+            data: [{% for i in services_views_per_day %} '{{i}}', {% endfor %}],
+    fill: false,
+        borderColor: '#ff4b5b',
+        }
+    ]
+    };
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }
+                ],
+            },
+
+            legend: {
+                display: false
+            },
+
+            animations: {
+                tension: {
+                    duration: 3000,
+                    easing: 'linear',
+                    from: .3,
+                    to: 0,
+                    loop: true
+                }
+            },
+            scales: {
+                y: { // defining min and max so hiding the dataset does not change scale range
+                    min: 0,
+                    max: 100
+                }
+            },
+            responsive: false,
+        }
+    };
+
+    var option = {
+        responsive: false,
+
+    };
+
+
+
+    const data2 = {
+        labels: [
+            'ارباح المدونة هذا الشهر',
+            'ارباح المتجر هذا الشهر',
+            'رصيدي الحالي'
+        ],
+        datasets: [{
+            label: 'Dataset',
+            data: [{{ articles_money_by_month }}, {{ services_money_by_month }}, {{ user_money }}],
+    backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+    ],
+        hoverOffset: 4
+        }]
+
+    };
+
+
+
+
+
+    const config2 = {
+        type: 'doughnut',
+        data: data2,
+        options: option
+    };
+
+    const labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+    const data4 = {
+
+
+
+        labels: labels,
+        datasets: [{
+            label: 'المدونة',
+            data: [{% for i in articles_money_by_12month %}'{{i}}', {% endfor %}],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)'
+        ],
+        borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+        ],
+        borderWidth: 1
+    },
+    {
+        label: 'المتجر',
+            data: [{% for i in services_money_by_12month %} '{{i}}', {% endfor %}],
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+    ],
+        borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+        ],
+            borderWidth: 1
+    }
+
+],
+
+    };
+
+    const config4 = {
+        type: 'bar',
+        data: data4,
+        options: {
+            responsive: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    new Chart(ctx, config);
+    new Chart(ctx2, config2)
+    new Chart(ctx4, config4);
+</script>
+
+{% elif LANGUAGE_CODE == "en" %}
+
+<style>
+    .item-box {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .menu-box {
+        min-width: 400px;
+    }
+
+    @media (max-width:902px) {
+        .menu-box {
+            min-width: 170px;
+        }
+
+        .two-box-charts {
+            width: 25vh;
+        }
+    }
+
+    @media (max-width:768px) {
+        .item-box {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .menu-box {
+            min-width: 100%;
+        }
+
+    }
+
+    @media (max-width:400px) {}
+
+    .details-card {
+        color: white;
+        padding-top: 20px;
+        display: block;
+        margin: auto;
+        width: -webkit-fill-available;
+        margin-top: 13px;
+        min-height: 100px;
+    }
+
+    .ico-with-value {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px 5px
+    }
+</style>
+
+
+<div class="container" dir="ltr">
+    <header class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10 offset-xl-1">
+                    <h1>analytics</h1>
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+
+</div>
+
+{% for message in messages %}
+
+{% if message.tags == 'error' %}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+        <use xlink:href="#exclamation-triangle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+
+</div>
+{% elif message.tags == 'success' %}
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill" />
+    </svg>
+    <div>
+        {{message}}
+    </div>
+
+</div>
+{% endif %}
+{% endfor %}
+<div dir="rtl" class="item-box">
+
+    
+    <div class="menu-box">
+
+
+        <ul>
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">Balance</p>
+            <button class="btn btn-warning details-card" id="button-addon1"><strong>Current balance</strong>
+                <div class="ico-with-value"> <strong><i class="fa-solid fa-dollar-sign"></i>
+                        {{user.userprofile.money}}</strong>
+                    <i class="fa-solid fa-coins fa-2x"></i>
+                </div>
+
+            </button>
+            <a class="btn btn-outline-warning"
+                style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;"
+                href="{% url 'Withdrawn' %}" id="button-addon1"><strong>Withdraw profits</strong></a>
+            <hr>
+
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">Blog</p>
+            <button class="btn btn-primary details-card" id="button-addon1"><strong>Total blog views this month</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i>
+                        {{articles_views_per_month}}</strong>
+                    <i class="fa-solid fa-square-rss fa-2x"></i>
+                </div>
+            </button>
+            <button class="btn btn-primary details-card" id="button-addon1"><strong>Total blog views from start to
+                    now</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i> {{articles_view_count}}</strong>
+                    <i class="fa-solid fa-square-rss fa-2x"></i>
+                </div>
+            </button>
+
+            <button class="btn btn-primary details-card" id="button-addon1"><strong>Blog earnings this month</strong>
+                <div class="ico-with-value"><strong><i class="fa-solid fa-dollar-sign"></i>
+                        {{articles_money_by_month}}</strong>
+                    <i class="fa-solid fa-sack-dollar fa-2x"></i>
+                </div>
+            </button>
+
+            <a class="btn btn-outline-primary"
+                style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;"
+                href="{% url 'myBlog' %}" id="button-addon1">Add a article</a>
+
+            <hr>
+
+
+            <p style="font-weight:bold; font-size: 18px; margin-top: 10px; text-align: center;">Store</p>
+            <button class="btn btn-danger details-card" id="button-addon1"><strong>Total store views this month</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i>
+                        {{services_views_per_month}}</strong>
+                    <i class="fa-solid fa-store fa-2x"></i>
+                </div>
+            </button>
+
+            <button class="btn btn-danger details-card" id="button-addon1"><strong>Total store views from start to
+                    now</strong>
+                <div class="ico-with-value"><strong><i class="fa-regular fa-eye"></i> {{services_view_count}}</strong>
+                    <i class="fa-solid fa-store fa-2x"></i>
+                </div>
+            </button>
+
+            <button class="btn btn-danger details-card" id="button-addon1"><strong>Store earnings this month</strong>
+                <div class="ico-with-value"><strong><i class="fa-solid fa-dollar-sign"></i>
+                        {{services_money_by_month}}</strong>
+                    <i class="fa-solid fa-sack-dollar fa-2x"></i>
+                </div>
+            </button>
+
+            <a class="btn btn-outline-danger"
+                style="display: block;margin: auto; width: -webkit-fill-available; margin-top: 13px;"
+                href="{% url 'mySotre' %}" id="button-addon1">Add a service</a>
+
+
+
+
+        </ul>
+
+
+    </div>
+
+    <div dir="rtl" class="container">
+        <div style="display: flex;flex-direction: row-reverse;">
+            <i class="fa-solid fa-chart-simple fa-2x"></i>
+            <h2 style="padding-right: 10px; ">charts</h2>
+
+        </div>
+
+        <h3 style="font-size: 20px;text-align: left;">The number of daily views during the month</h3>
+        <canvas height="400px" class="my-4 w-100 chartjs-render-monitor" id="myChart1"></canvas>
+        <br>
+        <h3 style="font-size: 20px;text-align: left;">Monthly earnings during the year</h3>
+        <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart4"></canvas>
+        <h3 style="font-size: 20px;text-align: left;">Comparison of profits</h3>
+        <div class="item-box two-box-charts" style=" margin: auto; justify-content: center;">
+            <canvas width="300px" height="300px" style="max-width: 300px;" class="my-4 w-100 chartjs-render-monitor"
+                id="myChart2"></canvas>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://raw.githubusercontent.com/chartjs/Chart.js/master/docs/scripts/utils.js"></script>
+<script>
+    const ctx = document.getElementById('myChart1');
+    const ctx2 = document.getElementById('myChart2');
+    const ctx4 = document.getElementById('myChart4');
+
+    const data = {
+        labels: [{% for i in date_list %}'{{i|date:'Y - m - d'}}', {% endfor %}],
+    datasets: [{
+        label: 'Blog',
+        data: [{% for i in articles_views_per_day %}'{{i}}', {% endfor %}],
+        fill: false,
+            borderColor: '#6168ff',
+            },
+    {
+        label: 'Store',
+            data: [{% for i in services_views_per_day %} '{{i}}', {% endfor %}],
+    fill: false,
+        borderColor: '#ff4b5b',
+            }
+        ]
+        };
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false,
+
+                    }
+                }
+                ],
+            },
+
+            legend: {
+                display: false
+            },
+
+            animations: {
+                tension: {
+                    duration: 3000,
+                    easing: 'linear',
+                    from: .3,
+                    to: 0,
+                    loop: true
+                }
+            },
+            scales: {
+                y: { // defining min and max so hiding the dataset does not change scale range
+                    min: 0,
+                    max: 100
+                }
+            },
+            responsive: false,
+        }
+    };
+
+    var option = {
+        responsive: false,
+
+    };
+
+
+
+    const data2 = {
+        labels: [
+            'Blog earnings this month',
+            'Store earnings this month',
+            'my current balance'
+        ],
+        datasets: [{
+            label: 'Dataset',
+            data: [{{ articles_money_by_month }}, {{ services_money_by_month }}, {{ user_money }}],
+    backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+    ],
+        hoverOffset: 4
+            }]
+    
+        };
+
+
+
+
+
+    const config2 = {
+        type: 'doughnut',
+        data: data2,
+        options: option
+    };
+
+    const labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+    const data4 = {
+
+
+
+        labels: labels,
+        datasets: [{
+            label: 'Blog',
+            data: [{% for i in articles_money_by_12month %}'{{i}}', {% endfor %}],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)'
+        ],
+        borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+        ],
+        borderWidth: 1
+        },
+    {
+        label: 'Store',
+            data: [{% for i in services_money_by_12month %} '{{i}}', {% endfor %}],
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+    ],
+        borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+        ],
+            borderWidth: 1
+        }
+    
+    ],
+    
+        };
+
+    const config4 = {
+        type: 'bar',
+        data: data4,
+        options: {
+            responsive: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    new Chart(ctx, config);
+    new Chart(ctx2, config2)
+    new Chart(ctx4, config4);
+</script>
+
+
+{% endif %}
+
+{% endblock content %}
